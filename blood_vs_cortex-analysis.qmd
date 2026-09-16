@@ -9,9 +9,57 @@ editor: visual
 
 [Broad institute code](https://github.com/broadinstitute/gtex-tutorials/blob/master/GTEx_data_tutorial_R.ipynb) was used as basis for analysis.
 
-# Import data
+# Sample & donor metadata
 
-Remove GCT two-line header. data.table will be faster than delim for the large file size.
+Load GTEx annotation files.
+
+```{r}
+sample.df  <- read.delim("data/GTEx_Analysis_v11_Annotations_SampleAttributesDS.txt",
+                         as.is = TRUE, header = TRUE, row.names = 1)
+subject.df <- read.delim("data/GTEx_Analysis_v11_Annotations_SubjectPhenotypesDS.txt",
+                         as.is = TRUE, header = TRUE, row.names = 1)
+```
+
+Visualize GTEx annotation files. Note:
+
+- SUBJID -\> unique subject ID
+
+- SEX -\> 1 = male, 2 = female
+
+- DTHHARDY = Hardy scale -\> 0 = ventilator, 1 = violent and fast (\< 10 min), 2 = fast of natural causes (\< 1 hr), 3 = intermediate (1 - 24 hours), 4 = slow (\> 1 day)
+
+```{r}
+head(sample.df[0:3,])
+head(subject.df[0:3,])
+
+cat("Sample dimensions: ", dim(sample.df), "\n")
+cat("Subject dimensions: ", dim(subject.df), "\n")
+```
+
+Build a new data frame containing RNA-seq analysis freeze samples only. Appears that samples that *aren't* included in GTEx are initially included in the sample attributes annotations.
+
+```{r}
+rnaseq.sample.df <- sample.df[sample.df['SMAFRZE']=='RNASEQ',]
+
+head(rnaseq.sample.df[1:5,])
+```
+
+Within the GTEx sample annotations, the number of samples within each tissue site can be visualized
+
+```{r}
+#plot(sort(table(rnaseq.sample.df['SMTSD']), decreasing=TRUE))
+```
+
+Prior to bring in the expression data, we can isolate relevant annotation information for our target tissue sites.
+
+```{r}
+blood.sample.df = rnaseq.sample.df[rnaseq.sample.df['SMTSD'] == 'Whole Blood', ]
+cortex.sample.df = rnaseq.sample.df[rnaseq.sample.df['SMTSD'] == 'Brain - Cortex', ]
+```
+
+# Import expression data
+
+Remove .gct two-line header. data.table will be faster than delim for the large file size.
 
 ```{r}
 library(data.table)
