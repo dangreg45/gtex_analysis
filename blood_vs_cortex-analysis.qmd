@@ -5,7 +5,11 @@ format: html
 editor: visual
 ---
 
-## Import data
+# Intro
+
+[Broad institute code](https://github.com/broadinstitute/gtex-tutorials/blob/master/GTEx_data_tutorial_R.ipynb) was used as basis for analysis.
+
+# Import data
 
 Remove GCT two-line header. data.table will be faster than delim for the large file size.
 
@@ -15,14 +19,12 @@ blood.dt <- fread("data/gene_reads_adult_gtex_v11_whole_blood.gct", skip=2)
 cortex.dt <- fread("data/gene_reads_adult_gtex_v11_brain_cortex.gct", skip=2)
 ```
 
-View header
+Data info:
 
 ```{r}
 head(blood.dt[,1:6]) # When rendered, all rows will be printed -> limit to 6
 head(cortex.dt[,1:6])
 
-cat("Whole-blood dimensions: ")
-dim(blood.dt)
-cat("Brain-cortex dimensions: ")
-dim(cortex.dt)
+cat("Whole-blood dimensions: ", dim(blood.dt), "\n")
+cat("Brain-cortex dimensions: ", dim(cortex.dt), "\n")
 ```

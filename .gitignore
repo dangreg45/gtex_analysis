@@ -1,16 +1,16 @@
-# --- R / RStudio ---
+# R / RStudio
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
 
-# --- Data (keep local for security; also too large for GitHub's 100MB limit) ---
+# Data - keep local for security & file size
 data/
 
-# --- Quarto render outputs (embed data previews -> keep local) ---
+# Quarto output - may include data rendering results 
 /.quarto/
 *_files/
 *.html
 
-# --- macOS junk ---
+# Misc.
 .DS_Store
