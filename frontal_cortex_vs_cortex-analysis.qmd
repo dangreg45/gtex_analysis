@@ -54,7 +54,7 @@ Within the GTEx sample annotations, the number of samples within each tissue sit
 Prior to bring in the expression data, we can isolate relevant annotation information for our target tissue sites.
 
 ```{r}
-blood.sample.dt = rnaseq.sample.dt[SMTSD == "Whole Blood"]
+blood.sample.dt = rnaseq.sample.dt[SMTSD == "Brain - Frontal Cortex (BA9)"]
 cortex.sample.dt = rnaseq.sample.dt[SMTSD == "Brain - Cortex"]
 ```
 
@@ -93,11 +93,11 @@ donor_id <- function(x) {
 }
 
 # Isolate donor IDs in each group
-blood.donors <- donor_id(blood.sample.dt$SAMPID)
+blood.donors  <- donor_id(blood.sample.dt$SAMPID)
 cortex.donors <- donor_id(cortex.sample.dt$SAMPID)
 
 # Split the donors into relevant groups
-overlap.donors <- intersect(blood.donors, cortex.donors)  # gave both tissues
+overlap.donors     <- intersect(blood.donors, cortex.donors)  # gave both tissues
 blood.only.donors  <- setdiff(blood.donors,  cortex.donors)   # gave blood, not cortex
 cortex.only.donors <- setdiff(cortex.donors, blood.donors)    # gave cortex, not blood
 
@@ -113,9 +113,9 @@ data.table(
 # Make venn diagram
 library(eulerr)
 region.counts <- c(
-  Blood = length(blood.only.donors),
-  Cortex = length(cortex.only.donors),
-  "Blood&Cortex" = length(overlap.donors)
+  Frontal          = length(blood.only.donors),
+  Cortex         = length(cortex.only.donors),
+  "Frontal&Cortex" = length(overlap.donors)
 )
 
 plot(euler(region.counts), quantities = TRUE, main = "Donors by tissue")
@@ -180,15 +180,15 @@ for (i in c("SEX", "AGE", "DTHHRDY")) {
 One row per paired sample (blood + cortex for each overlap donor), with donor, tissue, and covariates in a single table -- the colData for a within-donor (paired) DESeq2 contrast (`~ SUBJID + tissue`) that controls donor-level confounders.
 
 ```{r}
-# Grab the paired blood and cortex samples
+# Grab the paired blood and cortex samples (donors present in both tissues)
 blood.paired  <- blood.sample.dt [donor_id(SAMPID) %in% overlap.donors]
 cortex.paired <- cortex.sample.dt[donor_id(SAMPID) %in% overlap.donors]
 
-# Stack them into one table
+# Stack them into one table, keeping just the columns we need
 paired.dt <- rbind(blood.paired, cortex.paired)
 paired.dt <- paired.dt[, .(SAMPID, SUBJID = donor_id(SAMPID), tissue = SMTSD)]
 
-# Attach donor covariates
+# Attach donor phenotypes (SEX, AGE, DTHHRDY)
 paired.dt <- subject.dt[paired.dt, on = "SUBJID"]
 
 # Set column order + sort so each donor's two rows sit together
