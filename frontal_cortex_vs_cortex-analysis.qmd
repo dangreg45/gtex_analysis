@@ -177,8 +177,6 @@ for (i in c("SEX", "AGE", "DTHHRDY")) {
 
 ## Paired-donor subset for a matched comparison
 
-One row per paired sample (blood + cortex for each overlap donor), with donor, tissue, and covariates in a single table -- the colData for a within-donor (paired) DESeq2 contrast (`~ SUBJID + tissue`) that controls donor-level confounders.
-
 ```{r}
 # Grab the paired blood and cortex samples (donors present in both tissues)
 blood.paired  <- blood.sample.dt [donor_id(SAMPID) %in% overlap.donors]
@@ -200,8 +198,6 @@ paired.dt
 
 ## Expression counts for the paired samples
 
-The other half DESeq2 needs: a gene x sample count matrix. It stays a matrix (not a data table) because rows are genes and columns are samples -- a different shape from the per-sample `paired.dt`. The two are linked by matching `colnames(counts)` to `paired.dt$SAMPID`.
-
 ```{r}
 # The paired sample IDs for each tissue
 blood.samp  <- paired.dt[tissue == "Whole Blood",    SAMPID]
@@ -218,5 +214,3 @@ counts <- counts[, paired.dt$SAMPID]
 dim(counts)
 counts[1:5, 1:4]
 ```
-
-Together, `counts` (expression) + `paired.dt` (colData) are everything a paired DESeq2 model needs: `DESeqDataSetFromMatrix(counts, as.data.frame(paired.dt), design = ~ SUBJID + tissue)`.
