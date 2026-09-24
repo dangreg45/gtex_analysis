@@ -214,3 +214,18 @@ counts <- counts[, paired.dt$SAMPID]
 dim(counts)
 counts[1:5, 1:4]
 ```
+
+## Save DESeq2 inputs
+
+Bundle the count matrix, sample table, and gene annotation into one file for `deseq2-analysis.qmd`. Saved under `data/` (git-ignored).
+
+```{r}
+# Sanity checks: same gene order in both files, colData rows match count columns
+stopifnot(identical(blood.dt$Name, cortex.dt$Name),
+          identical(colnames(counts), paired.dt$SAMPID))
+
+saveRDS(list(counts = counts,
+             coldata = as.data.frame(paired.dt),
+             genes = as.data.frame(blood.dt[, .(Name, Description)])),
+        "data/deseq_input_blood_vs_cortex.rds")
+```
