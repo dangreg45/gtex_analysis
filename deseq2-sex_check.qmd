@@ -1,0 +1,42 @@
+---
+title: "DESeq2 sex check"
+author: "Daniel Gregory"
+format: html
+editor: visual
+---
+
+Testing if adding sex as a covariate changes up/down-regulated results and if gene-by-gene there are significant interaction effects due to sex.
+
+Inputs are saved at the end of `deseq2-analysis.qmd`.
+
+```{r}
+library(DESeq2)
+
+inp <- readRDS("data/processed/deseq2_output_Brain_Cortex_vs_Whole_Blood.rds")
+dds <- readRDS("data/processed/deseq2_dds_Brain_Cortex_vs_Whole_Blood.rds")
+res <- inp$res
+target <- inp$settings$target
+ref <- inp$settings$ref
+alpha <- inp$settings$alpha
+lfc_cutoff <- inp$settings$lfc_cutoff
+```
+
+```{r}
+table(dds$SEX, dds$group) # 1 = male, 2 = female
+
+dds_sex <- dds
+dds_sex$SEX <- factor(ifelse(dds_sex$SEX == 1, "Male", "Female"), levels = c("Male", "Female"))
+
+# 1. Sex as a covariate
+design(dds_sex) <- ~ SEX + group
+res_cov <- results(DESeq(dds_sex, quiet = TRUE), contrast = c("group", target, ref))
+hits <- res$padj < alpha & abs(res$log2FoldChange) > lfc_cutoff
+hits_cov <- res_cov$padj < alpha & abs(res_cov$log2FoldChange) > lfc_cutoff
+c(without_sex = sum(hits, na.rm = TRUE), with_sex = sum(hits_cov, na.rm = TRUE), in_both = sum(hits & hits_cov, na.rm = TRUE))
+
+# 2. Sex x tissue interaction
+design(dds_sex) <- ~ SEX + group + SEX:group
+res_int <- results(DESeq(dds_sex, quiet = TRUE), name = paste0("SEXFemale.group", target))
+sum(res_int$padj < alpha, na.rm = TRUE) # genes where the tissue difference depends on sex
+head(data.frame(symbol = res$symbol, lfc = res_int$log2FoldChange, padj = res_int$padj)[order(res_int$padj), ], 10)
+```

@@ -1,0 +1,47 @@
+---
+title: "DESeq2 figures"
+author: "Daniel Gregory"
+format: html
+editor: visual
+---
+
+Figures for the DESeq2 results. Input is saved at the end of `deseq2-analysis.qmd`.
+
+```{r}
+inp <- readRDS("data/processed/deseq2_output_Brain_Cortex_vs_Whole_Blood.rds")
+res <- inp$res
+s <- inp$settings
+
+plot_genes <- c("MAP7D2", "GFAP", "XIST") # random genes for the expression plots
+```
+
+# Volcano plot
+
+padj capped at 1e-300 since smaller values underflow to 0 and wouldn't be drawn. Red = higher in the numerator tissue (right), blue = higher in the reference tissue (left).
+
+```{r}
+hit <- res$padj < s$alpha & abs(res$log2FoldChange) > s$lfc_cutoff
+plot(res$log2FoldChange, pmin(-log10(res$padj), 300), pch = 19, cex = 0.3, col = ifelse(!hit, "black", ifelse(res$log2FoldChange > 0, "red", "blue")),
+     xlab = paste("Log2 FC", s$comparison), ylab = "-log10(padj), capped at 300")
+```
+
+# Expression by tissue and sex
+
+```{r}
+sex <- ifelse(inp$coldata$SEX == 1, "Male", "Female")
+for (g in plot_genes) {
+  boxplot(inp$norm_counts[match(g, res$symbol), ] + 1 ~ sex + inp$coldata$tissue, log = "y", main = g, xlab = NULL, ylab = "Normalized count + 1", cex.axis = 0.7)
+}
+```
+
+# Single donor vs all donors
+
+```{r}
+donor <- "GTEX-ZVZQ" # most typical donor
+target <- inp$norm_counts[, inp$coldata$SUBJID == donor & inp$coldata$tissue == s$target_level]
+ref <- inp$norm_counts[, inp$coldata$SUBJID == donor & inp$coldata$tissue == s$ref_level]
+donor_lfc <- log2((target + 1) / (ref + 1))
+
+plot(res$log2FoldChange, donor_lfc, pch = 19, cex = 0.3, xlab = "Log2 FC, all donors", ylab = paste("Log2 FC,", donor))
+abline(lm(donor_lfc ~ res$log2FoldChange), col = "red")
+```

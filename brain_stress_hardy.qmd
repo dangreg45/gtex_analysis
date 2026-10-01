@@ -1,0 +1,67 @@
+---
+title: "Brain stress score by Hardy scale"
+author: "Daniel Gregory"
+format: html
+editor: visual
+---
+
+# Intro
+
+Investigating how brain stress is affected by Hardy scale.
+
+Gene set:
+
+- **Glucocorticoid (stress hormone) response:** FKBP5, TSC22D3, ZBTB16, KLF9 ([Dal Molin et al. 2026, Mol Neurobiol](https://pmc.ncbi.nlm.nih.gov/articles/PMC13341972/)).
+
+# Settings
+
+```{r}
+gc_genes <- c("FKBP5", "TSC22D3", "ZBTB16", "KLF9")
+```
+
+# Load data
+
+```{r}
+library(data.table)
+library(DESeq2)
+
+sa <- fread("data/raw/GTEx_Analysis_v11_Annotations_SampleAttributesDS.txt")[SMAFRZE == "RNASEQ"]
+sa[, SUBJID := sapply(strsplit(SAMPID, "-"), function(p) paste(p[1], p[2], sep = "-"))]
+subj <- fread("data/raw/GTEx_Analysis_v11_Annotations_SubjectPhenotypesDS.txt")
+
+# Read one tissue's counts, normalize within that tissue, return log2 expression
+load_tissue <- function(file, tissue) {
+  dt <- fread(file, skip = 2)
+  samples <- sa[SMTSD == tissue & SAMPID %in% names(dt)]
+  counts <- as.matrix(dt[, samples$SAMPID, with = FALSE])
+  rownames(counts) <- dt$Description # gene symbols
+  norm <- t(t(counts) / estimateSizeFactorsForMatrix(counts))
+  list(expr = log2(norm + 1), samples = samples)
+}
+
+cortex <- load_tissue("data/raw/gene_reads_adult_gtex_v11_brain_cortex.gct", "Brain - Cortex")
+```
+
+# Scores
+
+Score = the average expression (log2 normalized counts) of the gene set in that tissue.
+
+```{r}
+score <- function(t, genes) setNames(colMeans(t$expr[match(genes, rownames(t$expr)), ]), t$samples$SUBJID)
+setdiff(gc_genes, rownames(cortex$expr)) # gene symbols not found (should be empty)
+
+d <- data.table(SUBJID = cortex$samples$SUBJID)
+d[, brain_stress := score(cortex, gc_genes)[SUBJID]]
+d <- subj[d, on = "SUBJID"] # donor info
+
+nrow(d) # donors with cortex
+```
+
+# How donors died affects the stress score
+
+Hardy scale: 0 = ventilator, 1 = violent/fast, 2 = fast natural, 3 = intermediate, 4 = slow.
+
+```{r}
+table(d$DTHHRDY) # donors per group
+boxplot(brain_stress ~ DTHHRDY, data = d, xlab = "Hardy scale", ylab = "Brain stress score")
+```

@@ -1,0 +1,243 @@
+---
+title: "tissue_overlap-analysis"
+author: "Daniel Gregory"
+format: html
+editor: visual
+---
+
+# Intro
+
+[Broad institute code](https://github.com/broadinstitute/gtex-tutorials/blob/master/GTEx_data_tutorial_R.ipynb) was used as basis for analysis.
+
+# Settings
+
+Select tissues and files for analysis.
+
+```{r}
+tissue_a <- "Whole Blood" # tissue names from the SMTSD column
+tissue_b <- "Brain - Cortex" # "Colon - Sigmoid"
+
+file_a <- "data/raw/gene_reads_adult_gtex_v11_whole_blood.gct"
+file_b <- "data/raw/gene_reads_adult_gtex_v11_brain_cortex.gct" # "data/raw/gene_reads_adult_gtex_v11_colon_sigmoid.gct"
+
+# Save under data folder to avoid uploading to git
+output_file <- "data/processed/deseq_input_blood_vs_cortex.rds" # "data/processed/deseq_input_blood_vs_sigmoid.rds"
+```
+
+# Sample & donor metadata
+
+Load GTEx annotation files.
+
+```{r}
+library(data.table)
+sample.dt  <- fread("data/raw/GTEx_Analysis_v11_Annotations_SampleAttributesDS.txt")
+subject.dt <- fread("data/raw/GTEx_Analysis_v11_Annotations_SubjectPhenotypesDS.txt")
+```
+
+Visualize GTEx annotation files. Note:
+
+- SUBJID -\> unique subject ID
+
+- SEX -\> 1 = male, 2 = female
+
+- AGE -\> Decade
+
+- DTHHARDY = Hardy scale -\> 0 = ventilator, 1 = violent and fast (\< 10 min), 2 = fast of natural causes (\< 1 hr), 3 = intermediate (1 - 24 hours), 4 = slow (\> 1 day)
+
+```{r}
+head(sample.dt, 5)
+head(subject.dt, 5)
+
+cat("Sample dimensions: ", dim(sample.dt), "\n")
+cat("Subject dimensions: ", dim(subject.dt), "\n")
+```
+
+Build a new data table containing RNA-seq analysis freeze samples only. Appears that samples that *aren't* included in tissue expression data are initially included in the sample attributes annotations.
+
+```{r}
+rnaseq.sample.dt <- sample.dt[SMAFRZE == "RNASEQ"]
+
+head(rnaseq.sample.dt, 5)
+```
+
+Within the GTEx sample annotations, the number of samples within each tissue site can be visualized
+
+```{r}
+# matrix(sort(table(rnaseq.sample.dt$SMTSD), decreasing=TRUE))
+```
+
+Prior to bringing in the expression data, we can isolate relevant annotation information for our target tissue sites.
+
+```{r}
+a.sample.dt = rnaseq.sample.dt[SMTSD == tissue_a]
+b.sample.dt = rnaseq.sample.dt[SMTSD == tissue_b]
+```
+
+# Import expression data
+
+Remove .gct two-line header.
+
+Optional: move description (gene ID) to gene variable to allow querying - might not be needed for data tables.
+
+```{r}
+a.dt <- fread(file_a, skip=2)
+b.dt <- fread(file_b, skip=2)
+```
+
+Data info (note description row is included in genes now):
+
+```{r}
+head(a.dt[,1:6]) # When rendered, all rows will be printed -> limit to 6
+head(b.dt[,1:6])
+
+cat(tissue_a, "dimensions: ", dim(a.dt), "\n")
+cat(tissue_b, "dimensions: ", dim(b.dt), "\n")
+```
+
+# Cohort overlap
+
+Build overlap and isolation datasets.
+
+```{r}
+# Subject annotation uses reduced donor ID
+# Build function to remove non-uniform ID components
+#   "GTEX-1117F-0005-SM-HL9SH"  ->  "GTEX-1117F"
+donor_id <- function(x) {
+  parts <- tstrsplit(x, "-", fixed = TRUE)  # split each ID into its fields
+  paste(parts[[1]], parts[[2]], sep = "-")  # rejoin the first two = the donor
+}
+
+# Isolate donor IDs in each group
+a.donors <- donor_id(a.sample.dt$SAMPID)
+b.donors <- donor_id(b.sample.dt$SAMPID)
+
+# Split the donors into relevant groups
+overlap.donors <- intersect(a.donors, b.donors)  # gave both tissues
+a.only.donors  <- setdiff(a.donors,  b.donors)   # gave tissue a, not b
+b.only.donors <- setdiff(b.donors, a.donors)    # gave tissue b, not a
+
+# Show sizes of each group
+data.table(
+  group   = c(tissue_a, tissue_b, "Overlap (both)",
+              paste(tissue_a, "only"), paste(tissue_b, "only")),
+  n_donors = c(length(a.donors), length(b.donors),
+               length(overlap.donors), length(a.only.donors),
+               length(b.only.donors))
+)
+
+# Make venn diagram
+library(eulerr)
+region.counts <- c(length(a.only.donors), length(b.only.donors), length(overlap.donors))
+names(region.counts) <- c(tissue_a, tissue_b, paste(tissue_a, tissue_b, sep = "&"))
+
+plot(euler(region.counts), quantities = TRUE, main = "Donors by tissue")
+```
+
+## Demographics
+
+Covariate data: sex (1 = male, 2 = female), age (sorted by 10s), hardy scale.
+
+Compare overlap with original sample distributions.
+
+I reviewed the sample attributes and didn't see anything that would be relevant for selection bias control.
+
+```{r}
+# Label every donor with its group, then attach that donor's phenotypes.
+# Create list w/ donor IDs and labeled group column x5 -> stack vertically with rbindlist
+donor.groups <- rbindlist(list(
+  data.table(group = "overlap",    SUBJID = overlap.donors),
+  # data.table(group = paste(tissue_b, "only"), SUBJID = b.only.donors),
+  # data.table(group = paste(tissue_a, "only"),  SUBJID = a.only.donors),
+  data.table(group = tissue_b, SUBJID = b.donors),
+  data.table(group = tissue_a, SUBJID = a.donors)
+))
+
+# Attach covariate data from subject dataset
+donor.groups <- subject.dt[donor.groups, on = "SUBJID"] #data.table join using key to add demographic info
+
+
+# For each covariate -> print counts + normalized table -> stacked bar chart
+library(ggplot2)
+for (i in c("SEX", "AGE", "DTHHRDY")) {
+
+  # Pull out the two columns we care about for this covariate
+  work <- data.table(
+    covariate = as.character(donor.groups[[i]]),  # the covariate value
+    group = donor.groups$group                # which cohort the donor is in
+  )
+
+  # Count donors in each group-level combination (.N = rows in each bucket)
+  counts <- work[, .(n = .N), by = .(group, covariate)]
+
+  # Turn each count into a proportion of its group
+  counts[, group_total := sum(n), by = group]     # total donors in the group
+  counts[, prop := round(n / group_total, 3)]     # count / group total = share of group
+
+  # Print counts + proportions side by side -> dcast pivots the long list into a wide grid
+  cat("\n---", i, "---\n")
+  print(dcast(counts, covariate ~ group, value.var = c("n", "prop"), fill = 0))
+
+  # Plot
+  p <- ggplot(counts, aes(x = group, y = prop, fill = covariate)) +
+    geom_col(width = 0.75) +
+    labs(x = NULL, y = "Proportion within group", fill = i,
+         title = paste("Composition by group -", i))
+  print(p)
+}
+
+```
+
+## Paired-donor subset for a matched comparison
+
+```{r}
+# Grab the paired samples from each tissue
+a.paired  <- a.sample.dt [donor_id(SAMPID) %in% overlap.donors]
+b.paired <- b.sample.dt[donor_id(SAMPID) %in% overlap.donors]
+
+# Stack into one table
+paired.dt <- rbind(a.paired, b.paired)
+paired.dt <- paired.dt[, .(SAMPID, SUBJID = donor_id(SAMPID), tissue = SMTSD)]
+
+# Attach donor covariates
+paired.dt <- subject.dt[paired.dt, on = "SUBJID"]
+
+# Set column order + sort so each donor's two rows sit together
+setcolorder(paired.dt, c("SAMPID", "SUBJID", "tissue", "SEX", "AGE", "DTHHRDY"))
+setorder(paired.dt, SUBJID, tissue)
+
+paired.dt
+```
+
+## Expression counts for the paired samples
+
+```{r}
+# The paired sample IDs for each tissue
+a.samp  <- paired.dt[tissue == tissue_a, SAMPID]
+b.samp <- paired.dt[tissue == tissue_b, SAMPID]
+
+# Both files share the same gene rows -> column-bind
+counts <- cbind(as.matrix(a.dt [, ..a.samp]),
+                as.matrix(b.dt[, ..b.samp]))
+rownames(counts) <- a.dt$Name # label rows with gene IDs
+
+# Put columns in the same order as the colData rows
+counts <- counts[, paired.dt$SAMPID]
+
+dim(counts)
+counts[1:5, 1:4]
+```
+
+## Save DESeq2 inputs
+
+Bundle the count matrix, sample table, and gene annotation into one file for the analysis file.
+
+```{r}
+# Sanity checks: same gene order in both files, colData rows match count columns
+stopifnot(identical(a.dt$Name, b.dt$Name),
+          identical(colnames(counts), paired.dt$SAMPID))
+
+saveRDS(list(counts = counts,
+             coldata = as.data.frame(paired.dt),
+             genes = as.data.frame(a.dt[, .(Name, Description)])),
+        output_file)
+```

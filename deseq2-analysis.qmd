@@ -9,29 +9,29 @@ editor: visual
 
 [Duke HTS 2017 DESeq2 introduction](https://people.duke.edu/~ccc14/duke-hts-2017/Statistics/08032017/DESeq2-Notebook-introduction.html) = base for this analysis. Minors changes were made for the more recent DESeq2 release and adapting to a different dataset.
 
-Input is from the blood_vs_cortex-analysis.qmd at present.
+Input is from the tissue_overlap-analysis.qmd at present.
 
 # Settings
 
 Program is input-blind outside of these settings.
 
 ```{r}
-input_file <- "data/deseq_input_blood_vs_cortex.rds"
+input_file <- "data/processed/deseq_input_blood_vs_cortex.rds" # "data/processed/deseq_input_blood_vs_sigmoid.rds"
 
 sample_col <- "SAMPID" # coldata column holding sample IDs (= count matrix column names)
 group_col <- "tissue" # coldata column that defines the comparison
-target_level <- "Whole Blood" # numerator
-ref_level <- "Brain - Cortex" # denominator = reference level
+target_level <- "Brain - Cortex" # upregulated "Colon - Sigmoid"
+ref_level <- "Whole Blood" # downregulated = reference level
 
-block_col <- NULL # "SUBJID" # paired design. NULL for an unpaired comparison. Counts get normalized so paired w/ donor is uneceessary.
+block_col <- NULL # "SUBJID" = paired design. NULL = unpaired comparison
 covariates <- NULL # extra design terms - unpaired only. c("SEX", "AGE", "DTHHRDY")
 
 # I'll have to explore these to find the best values
 alpha <- 0.05 # FDR cutoff for calling DE genes
-lfc_cutoff <- 2 # |log2FC| used to highlight hits in the volcano plot
-min_count <- 10 # prefilter -> keep genes with >= min_count reads in >= (smallest group) samples
+lfc_cutoff <- 1.5 # |log2FC| used to highlight hits in the volcano plot
+min_count <- 10 # prefilter -> reads a sample needs for a gene to count as expressed in it
+min_frac <- 0.5 # prefilter -> keep genes expressed in >= this fraction of samples in either group
 shrink_type <- "apeglm" # lfcShrink method: "apeglm" (recommended), "ashr", or "normal"
-example_gene <- NULL # gene symbol to plot, e.g. "GFAP". NULL = top hit
 
 out_dir <- "results"
 ```
@@ -70,13 +70,13 @@ genes <- inp$genes # Name = Ensembl ID, Description = gene symbol
 coldata <- inp$coldata
 coldata <- coldata[coldata[[group_col]] %in% c(target_level, ref_level), ]
 
-# Build the design columns as clean factors; reference level first
+# Build the design columns - reference level first
 coldata$group <- factor(clean(coldata[[group_col]]), levels = c(ref, target))
 for (v in c(block_col, covariates)) {
   coldata[[v]] <- factor(clean(as.character(coldata[[v]])))
 }
 
-# DESeq2 can't use samples with missing design values. DTHHRDY has some NAs
+# DESeq2 can't use samples with missing design values. DTHHRDY can have some NAs
 design_vars <- c(block_col, covariates, "group")
 has_na <- !complete.cases(coldata[, design_vars, drop = FALSE])
 if (any(has_na)) message("Dropping ", sum(has_na), " samples with missing design values")
@@ -89,7 +89,7 @@ counts <- inp$counts[, rownames(coldata)]
 table(coldata$group)
 ```
 
-Import into DESeqDataSet. Upstream data = count matrix so use FromMatrix in place of From HTSeqCount.
+Import into DESeqDataSet. Upstream data = count matrix so use FromMatrix in place of fromHTSeqCount.
 
 ```{r}
 dds <- DESeqDataSetFromMatrix(countData = counts,
@@ -123,22 +123,29 @@ head(counts(dds)[, 1:6], 3)
 
 DESeq2 vignette recommends dropping genes with very small amounts of reads to accelerate computation.
 
+The vignette's rule (\>= min_count reads in \>= smallest-group-size samples) is too strict with GTEx. Instead consider the groups individually
+
 ```{r}
-keep <- rowSums(counts(dds) >= min_count) >= min(table(dds$group))
+keep <- sapply(levels(dds$group), function(g) {
+  in_g <- dds$group == g
+  rowSums(counts(dds)[, in_g] >= min_count) >= min_frac * sum(in_g)
+})
+keep <- rowSums(keep) > 0
 table(keep)
 dds <- dds[keep, ]
 ```
 
-# Estimate size factors and dispersion parameters
+# Fit the model
 
-DESeq2 models the count $K_{ij}$ (gene $i$, sample $j$) as negative binomial with mean $\mu_{ij}$ and gene-specific dispersion $\alpha_i$. Here $\mu_{ij} = s_j q_{ij}$ with $s_j$ the sample size factor, and $\log_2(q_{ij})$ is a linear function of the design (for the paired design: a donor effect plus a tissue effect $\beta_i$ = log2 fold change).
-
-## Size factors
+`DESeq()` runs the full pipeline: size factors -\> dispersions -\> Wald test. Also replaces outlier counts and refits those genes when sample size is \>= 7.
 
 ```{r}
-dds <- estimateSizeFactors(dds)
-dds # note sizeFactor added to colData
+dds <- DESeq(dds)
+dds # sizeFactor added to colData; baseMean, dispersion, Wald results, ... added to rowData
+resultsNames(dds)[length(resultsNames(dds))] # Print
 ```
+
+## Size factors
 
 Each sample is given a size factor.
 
@@ -160,17 +167,11 @@ head(counts(dds)[, 1:6], 3)
 head(counts(dds, normalized = TRUE)[, 1:6], 3)
 ```
 
-```{r}
-dispersionFunction(dds)
-```
-
 ## Dispersion parameters
 
-This is the slowest step for a large sample set.
+The fitted mean-dispersion trend.
 
 ```{r}
-dds <- estimateDispersions(dds)
-dds # note rowData now has added names
 dispersionFunction(dds)
 ```
 
@@ -197,16 +198,11 @@ plotDispEsts(dds)
 
 # Differential expression analysis
 
-Size factors and dispersions were calculated above. Only remaining component should be the Wald test which can be calculated on its own to save time (calculates log2FoldChange, lfcSE, stat, pvalue). Duke intro uses full DESeq which would do redundant recalculation.
+The Wald test already ran inside `DESeq()` above (calculates log2FoldChange, lfcSE, stat, pvalue).
 
-Not running incorporating a "zero-centered Normal prior (betaPrior)" yet.
+Haven't run a "zero-centered Normal prior (betaPrior)" akaa shrinkage yet.
 
-```{r}
-dds <- nbinomWaldTest(dds)
-resultsNames(dds)[length(resultsNames(dds))] # Print
-```
-
-The alpha threshold should be redundant because the of min_counts filtering that happened early on.
+The alpha threshold should be redundant because the of min_counts filtering.
 
 ```{r}
 res <- results(dds, contrast = c("group", target, ref), alpha = alpha)
@@ -241,13 +237,26 @@ head(res_ord)
 
 ## Volcano plot
 
+Many padj values underflow to exactly 0, so -log10(padj) = Inf and plot() drops those genes. Cap the y-axis instead and draw capped genes as triangles along the top. Small p-values are discussed in this [thread](https://support.bioconductor.org/p/117706/).
+
 ```{r}
-plot(res$log2FoldChange,-log10(res$padj),pch=19,cex=0.3,xlab="Log2 FC",ylab="-log10(BH Adjusted P-value)",col=ifelse(res$padj<0.05&abs(res$log2FoldChange)>lfc_cutoff,"red","black"))
+# Original - drops genes with padj = 0
+# plot(res$log2FoldChange,-log10(res$padj),pch=19,cex=0.3,xlab="Log2 FC",ylab="-log10(BH Adjusted P-value)",col=ifelse(res$padj<0.05&abs(res$log2FoldChange)>lfc_cutoff,"red","black"))
+
+y <- -log10(res$padj)
+y_cap <- 300
+capped <- !is.na(y) & y > y_cap
+y[capped] <- y_cap
+hit <- res$padj < alpha & abs(res$log2FoldChange) > lfc_cutoff
+# red = higher in target_level (right), blue = higher in ref_level (left)
+plot(res$log2FoldChange, y, pch = ifelse(capped, 17, 19), cex = 0.3,
+     xlab = paste("Log2 FC", target_level, "vs", ref_level), ylab = "-log10(BH adjusted p-value), capped at 300",
+     col = ifelse(!hit, "black", ifelse(res$log2FoldChange > 0, "red", "blue")))
 ```
 
 ## Shrunken log2 fold changes
 
-`DESeq()` no longer shrinks fold changes, done separately within `lfcShrink`. Shrinking is generally advised to improve ranking and visualization - doesn't change p-values.
+`DESeq()` no longer shrinks fold changes, it's now done separately within `lfcShrink`. Shrinking is generally advised to improve ranking and visualization - doesn't change p-values.
 
 ```{r}
 if (shrink_type != "normal" && !requireNamespace(shrink_type, quietly = TRUE)) {
@@ -257,12 +266,12 @@ if (shrink_type != "normal" && !requireNamespace(shrink_type, quietly = TRUE)) {
 }
 
 res_shrunk <- lfcShrink(dds, coef = paste0("group_", target, "_vs_", ref),
-                        type = shrink_type)
+                        type = shrink_type, svalue = shrink_type != "normal") # s-values need apeglm or ashr
 res_shrunk$symbol <- res$symbol
-head(res_shrunk[order(res_shrunk$pvalue), ])
+head(res_shrunk[order(res$pvalue), ]) # svalue output has no pvalue column; rows match res
 ```
 
-MA plots before and after shrinkage. Noisy low-count genes get pulled toward zero.
+MA plots before and after shrinkage. Noisy low-count genes get pulled toward zero. The unshrunken estimate is capped by DESeq2's `minmu = 0.5` floor, while apeglm refits from raw counts without it.
 
 ```{r}
 DESeq2::plotMA(res, alpha = alpha, main = "Unshrunken")
@@ -272,11 +281,54 @@ DESeq2::plotMA(res_shrunk, alpha = alpha, main = paste("Shrunken (", shrink_type
 ## Save results
 
 ```{r}
-dir.create(out_dir, showWarnings = FALSE)
+dir.create(file.path(out_dir, "deseq2"), recursive = TRUE, showWarnings = FALSE)
+dir.create(file.path(out_dir, "shinygo", "input"), recursive = TRUE, showWarnings = FALSE)
 out <- as.data.frame(res_ord)
 out$log2FoldChange_shrunk <- res_shrunk[rownames(out), "log2FoldChange"]
 out <- cbind(gene_id = rownames(out), out)
-write.csv(out, file.path(out_dir, paste0("deseq2_", file_tag, ".csv")), row.names = FALSE)
+write.csv(out, file.path(out_dir, "deseq2", paste0("deseq2_", file_tag, ".csv")), row.names = FALSE)
+```
+
+## Gene lists for ShinyGO
+
+Directional hit lists plus the background (every gene that was tested). Ensembl IDs with the version suffix stripped ("ENSG00000302013.1" -\> "ENSG00000302013"), one per line, ready to paste into ShinyGO.
+
+```{r}
+strip_version <- function(x) unique(sub("\\..*$", "", x))
+sig <- !is.na(res$padj) & res$padj < alpha
+
+gene_lists <- list(
+  up = strip_version(rownames(res)[sig & res$log2FoldChange > lfc_cutoff]), # higher in target
+  down = strip_version(rownames(res)[sig & res$log2FoldChange < -lfc_cutoff]), # higher in reference
+  background = strip_version(rownames(res))
+)
+names(gene_lists) <- c(paste0("up_in_", target), paste0("up_in_", ref), "background")
+
+for (n in names(gene_lists)) {
+  writeLines(gene_lists[[n]], file.path(out_dir, "shinygo", "input", paste0("shinygo_", file_tag, "_", n, ".txt")))
+}
+lengths(gene_lists)
+```
+
+## Save output for figures
+
+Results table, normalized counts, and sample info in one file.
+
+```{r}
+res_out <- as.data.frame(res)
+res_out$gene_id <- rownames(res)
+saveRDS(list(res = res_out,
+             norm_counts = counts(dds, normalized = TRUE),
+             coldata = as.data.frame(colData(dds)),
+             settings = list(target_level = target_level, ref_level = ref_level, target = target, ref = ref,
+                             alpha = alpha, lfc_cutoff = lfc_cutoff, comparison = comparison, file_tag = file_tag)),
+        file.path("data", "processed", paste0("deseq2_output_", file_tag, ".rds")))
+```
+
+Fitted DESeq2 object.
+
+```{r}
+saveRDS(dds, file.path("data", "processed", paste0("deseq2_dds_", file_tag, ".rds")))
 ```
 
 # Transformations for clustering and PCA
