@@ -1,0 +1,6 @@
+"Enrichment FDR","nGenes","Pathway Genes","Fold Enrichment","Pathway","URL","Genes"
+0.089949566722751,2,28,22.2081967213115,"Path:hsa00601 Glycosphingolipid biosynthesis-lacto and neolacto series","https://www.genome.jp/kegg-bin/show_pathway?hsa00601 ","ST3GAL6 FUT9"
+0.089949566722751,2,38,15.8629976580796,"Path:hsa00760 Nicotinate and nicotinamide metabolism","https://www.genome.jp/kegg-bin/show_pathway?hsa00760 ","SIRT5 NNMT"
+0.089949566722751,3,99,8.02705905589571,"Path:hsa05410 Hypertrophic cardiomyopathy","https://www.genome.jp/kegg-bin/show_pathway?hsa05410 ","MYBPC3 MYH7 SLC8A2"
+0.089949566722751,3,105,7.48590900718364,"Path:hsa05414 Dilated cardiomyopathy","https://www.genome.jp/kegg-bin/show_pathway?hsa05414 ","MYBPC3 MYH7 SLC8A2"
+0.0924193420379564,2,51,13.4595131644312,"Path:hsa04979 Cholesterol metabolism","https://www.genome.jp/kegg-bin/show_pathway?hsa04979 ","MYLIP VAPB"

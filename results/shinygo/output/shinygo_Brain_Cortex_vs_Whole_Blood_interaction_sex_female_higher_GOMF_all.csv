@@ -1,0 +1,4 @@
+"Enrichment FDR","nGenes","Pathway Genes","Fold Enrichment","Pathway","URL","Genes"
+0.0191062645826583,5,65,12.1935193519352,"GO:0050840 Extracellular matrix binding "," https://amigo.geneontology.org/amigo/term/GO:0050840","LGALS3 FBLN2 SPOCK3 TGFBI ADAMTSL2"
+0.142972560196031,2,8,44.7095709570957,"GO:0008061 Chitin binding "," https://amigo.geneontology.org/amigo/term/GO:0008061","CHI3L2 CHI3L1"
+0.142972560196031,8,721,3.805069868689,"GO:0030545 Signaling receptor regulator activity "," https://amigo.geneontology.org/amigo/term/GO:0030545","SEMA5B EREG LTA PLAU LGALS3 CLCF1 IL34 IL18BP"

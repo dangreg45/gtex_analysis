@@ -1,0 +1,2684 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <script type="application/shiny-singletons"></script>
+  <script type="application/html-dependencies">jquery[3.7.1];shiny-css[1.11.1];shiny-busy-indicators[1.11.1];shiny-javascript[1.11.1];spinkit[0.1.1];shinybusy-busy[0.3.3];selectize[0.15.2];htmltools-fill[0.5.8.1];htmlwidgets[1.6.4];tippyjs[3.2.0];tippy-binding[0.1.0];font-awesome[6.5.2];vis[9.1.0];visNetwork-binding[2.1.4];plotly-binding[4.11.0];ionrangeslider-javascript[2.3.1];strftime[0.9.2];ionrangeslider-css[2.3.1];shinyBS[0.61.1];bootstrap[3.4.1]</script>
+<script src="jquery-3.7.1/jquery.min.js"></script>
+<link href="shiny-css-1.11.1/shiny.min.css" rel="stylesheet" />
+<link href="shiny-busy-indicators-1.11.1/busy-indicators.css" rel="stylesheet" />
+<script src="shiny-javascript-1.11.1/shiny.min.js"></script>
+<link href="shinybusy/spinkit/spin.min.css" rel="stylesheet" />
+<script src="shinybusy-busy-0.3.3/busy.js"></script>
+<link href="selectize-0.15.2/css/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="selectize-0.15.2/js/selectize.min.js"></script>
+<script src="selectize-0.15.2/accessibility/js/selectize-plugin-a11y.min.js"></script>
+<link href="htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="tippyjs-3.2.0/themes/google.css" rel="stylesheet" />
+<link href="tippyjs-3.2.0/themes/light-border.css" rel="stylesheet" />
+<link href="tippyjs-3.2.0/themes/light.css" rel="stylesheet" />
+<link href="tippyjs-3.2.0/themes/translucent.css" rel="stylesheet" />
+<script src="tippyjs-3.2.0/tippy.all.min.js"></script>
+<script src="tippy-binding-0.1.0/tippy.js"></script>
+<link href="font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+<link href="vis-9.1.0/vis-network.min.css" rel="stylesheet" />
+<script src="vis-9.1.0/vis-network.min.js"></script>
+<script src="visNetwork-binding-2.1.4/visNetwork.js"></script>
+<script src="plotly-binding-4.11.0/plotly.js"></script>
+<script src="ionrangeslider-javascript-2.3.1/js/ion.rangeSlider.min.js"></script>
+<script src="strftime-0.9.2/strftime-min.js"></script>
+<link href="ionrangeslider-css-2.3.1/css/ion.rangeSlider.css" rel="stylesheet" />
+<link href="sbs/shinyBS.css" rel="stylesheet" />
+<script src="sbs/shinyBS.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="bootstrap-3.4.1/css/bootstrap.min.css" rel="stylesheet" />
+<link href="bootstrap-3.4.1/accessibility/css/bootstrap-accessibility.min.css" rel="stylesheet" />
+<script src="bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script src="bootstrap-3.4.1/accessibility/js/bootstrap-accessibility.min.js"></script>  <style>label { font-size:100%; font-family:Times New Roman; margin-bottom:-15px; }</style>
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <title>ShinyGO 0.86</title>
+  <title></title>
+  <style>#selected_species{color: red;
+                                 font-size: 15px;
+                                 font-style: italic;
+                                 }</style>
+  <style>#STRINGDB_mapping_stat{color: blue;font-size: 15px;}</style>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G2MS6001MR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-G2MS6001MR');
+</script>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="shinybusy shinybusy-busy" id="spin-0afaf1aa74a64a21161961c6" style="top:10px; right:10px; height:50px; width:50px;">
+      <style>.sk-fading-circle .sk-circle-iitcliswzueg:before {background-color: #112446;}</style>
+      <div class="sk-fading-circle">
+        <div class="sk-circle1 sk-circle sk-circle-iitcliswzueg"></div>
+        <div class="sk-circle2 sk-circle sk-circle-iitcliswzueg"></div>
+        <div class="sk-circle3 sk-circle sk-circle-iitcliswzueg"></div>
+        <div class="sk-circle4 sk-circle sk-circle-iitcliswzueg"></div>
+        <div class="sk-circle5 sk-circle sk-circle-iitcliswzueg"></div>
+        <div class="sk-circle6 sk-circle sk-circle-iitcliswzueg"></div>
+        <div class="sk-circle7 sk-circle sk-circle-iitcliswzueg"></div>
+        <div class="sk-circle8 sk-circle sk-circle-iitcliswzueg"></div>
+        <div class="sk-circle9 sk-circle sk-circle-iitcliswzueg"></div>
+        <div class="sk-circle10 sk-circle sk-circle-iitcliswzueg"></div>
+        <div class="sk-circle11 sk-circle sk-circle-iitcliswzueg"></div>
+        <div class="sk-circle12 sk-circle sk-circle-iitcliswzueg"></div>
+      </div>
+    </div>
+    <script type="application/json" data-for="shinybusy">{"timeout":100,"mode":"spin","id":"spin-0afaf1aa74a64a21161961c6","type":"auto","position":"top-right"}</script>
+    <div class="row">
+      <div class="col-sm-4">
+        <form class="well" role="complementary">
+          <h2>ShinyGO 0.86.0</h2>
+          <div class="shiny-panel-conditional" data-display-if="0" data-ns-prefix="">
+            <div class="form-group shiny-input-container">
+              <label class="control-label shiny-label-null" for="selectOrg" id="selectOrg-label"></label>
+              <div>
+                <select id="selectOrg" class="shiny-input-select"><option value="95" selected>Human</option></select>
+                <script type="application/json" data-for="selectOrg" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div id="selected_species" class="shiny-text-output"></div>
+            </div>
+            <div class="col-sm-6" align="left">
+              <div class="shiny-panel-conditional" data-display-if="input.goButton == 0" data-ns-prefix="">
+                <button id="genome_assembl_button" type="button" class="btn btn-default action-button">
+                  <strong>Change species</strong>
+                </button>
+                <span class="tippy html-widget html-fill-item" height="500" id="htmlwidget-df50519519745cb7620d" width="960"></span>
+                <script type="application/json" data-for="htmlwidget-df50519519745cb7620d">{"x":{"element":"genome_assembl_button","opts":{"content":"Search and click a row to select a species. ","theme":"light-border"}},"evals":[],"jsHooks":[]}</script>
+              </div>
+            </div>
+          </div>
+          <br/>
+          <div class="row">
+            <div class="col-sm-8">
+              <div class="shiny-panel-conditional" data-display-if="input.goButton == 0" data-ns-prefix="">
+                <button id="useDemo1" type="button" class="btn btn-default action-button">Demo genes</button>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <p><div align="right"> <A HREF="javascript:history.go(0)">Reset</A></div></p>
+            </div>
+          </div>
+          <style type="text/css">textarea {width:100%}</style>
+          <textarea id="input_text" placeholder="Change the species if it is not human. Then just paste a list of genes and click Submit. Gene IDs can be NCBI, Ensembl, symbol, or other common types." rows="8"></textarea>
+          <div class="shiny-panel-conditional" data-display-if="input.goButton != 0" data-ns-prefix="">
+            <div id="mapping_stats" class="shiny-text-output"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8">
+              <button id="backgroundGenes" type="button" class="btn btn-default action-button">Background (recommended)</button>
+            </div>
+            <div class="col-sm-4">
+              <button id="goButton" type="button" class="btn btn-default action-button">
+                <strong>Submit</strong>
+              </button>
+            </div>
+          </div>
+          <br/>
+          <div id="selectGO1" class="shiny-html-output"></div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group shiny-input-container">
+                <label class="control-label" id="minFDR-label" for="minFDR">
+                  <h5>FDR cutoff</h5>
+                </label>
+                <input id="minFDR" type="number" class="shiny-input-number form-control" value="0.05" data-update-on="change" step="0.01"/>
+              </div>
+              <span class="tippy html-widget html-fill-item" height="500" id="htmlwidget-cb78fde1c6b9d391fb0e" width="960"></span>
+              <script type="application/json" data-for="htmlwidget-cb78fde1c6b9d391fb0e">{"x":{"element":"minFDR","opts":{"content":"Minimum  P-value, ajusted using the FDR (false discovery rate)\n          method. P-value is derived from hypergeometric distribution.\n           Really significant FDR are between 1E-5 to 1E-20. Be cautious\n           when you get an FDR of 1E-2 or 1E-3, as thousands of\n           gene sets are tested.","theme":"light-border"}},"evals":[],"jsHooks":[]}</script>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group shiny-input-container">
+                <label class="control-label" id="maxTerms-label" for="maxTerms">
+                  <h5># pathways to show</h5>
+                </label>
+                <div>
+                  <select class="shiny-input-select form-control" id="maxTerms"><option value="10">10</option>
+<option value="15">15</option>
+<option value="20" selected>20</option>
+<option value="25">25</option>
+<option value="30">30</option>
+<option value="40">40</option>
+<option value="50">50</option>
+<option value="60">60</option>
+<option value="80">80</option>
+<option value="100">100</option>
+<option value="200">200</option>
+<option value="500">500</option></select>
+                </div>
+              </div>
+              <span class="tippy html-widget html-fill-item" height="500" id="htmlwidget-9e0c98df9ae2e611ae5e" width="960"></span>
+              <script type="application/json" data-for="htmlwidget-9e0c98df9ae2e611ae5e">{"x":{"element":"maxTerms","opts":{"content":"How many top pathways to show.\n            You can download nearly all significant ones.\n            We typically recommend focusing on the top 10 to 20 pathways.\n            If you go down the list,\n            you can always find the one that help you tell the story you\n            want to tell.","theme":"light-border"}},"evals":[],"jsHooks":[]}</script>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group shiny-input-container">
+                <label class="control-label" id="minSetSize-label" for="minSetSize">
+                  <h5>Pathway size: Min.</h5>
+                </label>
+                <input id="minSetSize" type="number" class="shiny-input-number form-control" value="2" data-update-on="change" min="2" max="30" step="1"/>
+              </div>
+              <span class="tippy html-widget html-fill-item" height="500" id="htmlwidget-ec6b812d4e2f927a71e1" width="960"></span>
+              <script type="application/json" data-for="htmlwidget-ec6b812d4e2f927a71e1">{"x":{"element":"minSetSize","opts":{"content":"Smaller pathways can introduce noise. Generally safe to incrase to 10 or 15.\n            It is automatically raised to 10 when \"Sort by Fold Enrichment \" is selected.","theme":"light-border"}},"evals":[],"jsHooks":[]}</script>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group shiny-input-container">
+                <label class="control-label" id="maxSetSize-label" for="maxSetSize">
+                  <h5>Max.</h5>
+                </label>
+                <input id="maxSetSize" type="number" class="shiny-input-number form-control" value="5000" data-update-on="change" min="1000" max="20000" step="200"/>
+              </div>
+              <span class="tippy html-widget html-fill-item" height="500" id="htmlwidget-bb492551d13d9a053515" width="960"></span>
+              <script type="application/json" data-for="htmlwidget-bb492551d13d9a053515">{"x":{"element":"maxSetSize","opts":{"content":"Big gene sets, such as those associated with top-level GO term\n            \"Cellular Process\", are less informative, but\n            tend to have small P values due to increased power.","theme":"light-border"}},"evals":[],"jsHooks":[]}</script>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group shiny-input-container">
+                <div class="checkbox">
+                  <label>
+                    <input id="removeRedudantSets" type="checkbox" class="shiny-input-checkbox" checked="checked"/>
+                    <span>Remove redundancy</span>
+                  </label>
+                </div>
+              </div>
+              <span class="tippy html-widget html-fill-item" height="500" id="htmlwidget-8719977bca42f100fc10" width="960"></span>
+              <script type="application/json" data-for="htmlwidget-8719977bca42f100fc10">{"x":{"element":"removeRedudantSets","opts":{"content":"Similar pathways sharing 95% of genes are represented by the most significant pathway.","theme":"light-border"}},"evals":[],"jsHooks":[]}</script>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group shiny-input-container">
+                <div class="checkbox">
+                  <label>
+                    <input id="abbreviatePathway" type="checkbox" class="shiny-input-checkbox" checked="checked"/>
+                    <span>Abbreviate pathways</span>
+                  </label>
+                </div>
+              </div>
+              <span class="tippy html-widget html-fill-item" height="500" id="htmlwidget-d6db5ffc3082e9a9726b" width="960"></span>
+              <script type="application/json" data-for="htmlwidget-d6db5ffc3082e9a9726b">{"x":{"element":"abbreviatePathway","opts":{"content":"Positive regulation --> Pos. reg.","theme":"light-border"}},"evals":[],"jsHooks":[]}</script>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group shiny-input-container">
+                <div class="checkbox">
+                  <label>
+                    <input id="gene_count_pathwaydb" type="checkbox" class="shiny-input-checkbox"/>
+                    <span>Use pathway DB for gene counts</span>
+                  </label>
+                </div>
+              </div>
+              <span class="tippy html-widget html-fill-item" height="500" id="htmlwidget-40d02cef8c86d6fc55c1" width="960"></span>
+              <script type="application/json" data-for="htmlwidget-40d02cef8c86d6fc55c1">{"x":{"element":"gene_count_pathwaydb","opts":{"content":"If turned on, a gene must match at least one pathway in the selected pathway database.\n            Otherwise, this gene is ignored when calculating enrichment. Be cautious\n            when the selected pathway database is small, such as KEGG. ","theme":"light-border"}},"evals":[],"jsHooks":[]}</script>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group shiny-input-container">
+                <div class="checkbox">
+                  <label>
+                    <input id="show_pathway_id" type="checkbox" class="shiny-input-checkbox"/>
+                    <span>Show pathway IDs</span>
+                  </label>
+                </div>
+              </div>
+              <span class="tippy html-widget html-fill-item" height="500" id="htmlwidget-13a0cb138fc090782f6f" width="960"></span>
+              <script type="application/json" data-for="htmlwidget-13a0cb138fc090782f6f">{"x":{"element":"show_pathway_id","opts":{"content":"If selected, pathway IDs, such as Path:mmu04115 and GO:0042770,  will be appended to pathway name.","theme":"light-border"}},"evals":[],"jsHooks":[]}</script>
+            </div>
+          </div>
+          <button id="MGeneIDexamples" type="button" class="btn btn-default action-button">Gene IDs examples</button>
+          <span class="tippy html-widget html-fill-item" height="500" id="htmlwidget-f4c7700f6def64ef7084" width="960"></span>
+          <script type="application/json" data-for="htmlwidget-f4c7700f6def64ef7084">{"x":{"element":"MGeneIDexamples","opts":{"content":"Show some example gene IDs in our database for a specific species.","theme":"light-border"}},"evals":[],"jsHooks":[]}</script>
+          <h5>
+            Try 
+            <a href="https://bioinformatics.sdstate.edu/idep/" target="_blank"> iDEP</a>
+            for RNA-Seq data analysis
+          </h5>
+        </form>
+      </div>
+      <div class="col-sm-8" role="main">
+        <div class="tabbable">
+          <ul class="nav nav-tabs shiny-tab-input" id="tabs" data-tabsetid="9605">
+            <li class="active">
+              <a href="#tab-9605-1" data-toggle="tab" data-bs-toggle="tab" data-value="1">Enrichment</a>
+            </li>
+            <li>
+              <a href="#tab-9605-2" data-toggle="tab" data-bs-toggle="tab" data-value="3">Chart</a>
+            </li>
+            <li>
+              <a href="#tab-9605-3" data-toggle="tab" data-bs-toggle="tab" data-value="4">Tree</a>
+            </li>
+            <li>
+              <a href="#tab-9605-4" data-toggle="tab" data-bs-toggle="tab" data-value="5">Network</a>
+            </li>
+            <li>
+              <a href="#tab-9605-5" data-toggle="tab" data-bs-toggle="tab" data-value="2">KEGG</a>
+            </li>
+            <li>
+              <a href="#tab-9605-6" data-toggle="tab" data-bs-toggle="tab" data-value="6">Genes</a>
+            </li>
+            <li>
+              <a href="#tab-9605-7" data-toggle="tab" data-bs-toggle="tab" data-value="7">Groups</a>
+            </li>
+            <li>
+              <a href="#tab-9605-8" data-toggle="tab" data-bs-toggle="tab" data-value="8">Plots</a>
+            </li>
+            <li>
+              <a href="#tab-9605-9" data-toggle="tab" data-bs-toggle="tab" data-value="9">Genome</a>
+            </li>
+            <li>
+              <a href="#tab-9605-10" data-toggle="tab" data-bs-toggle="tab" data-value="11">STRING</a>
+            </li>
+            <li>
+              <a href="#tab-9605-11" data-toggle="tab" data-bs-toggle="tab" data-value="12">About</a>
+            </li>
+          </ul>
+          <div class="tab-content" data-tabsetid="9605">
+            <div class="tab-pane active" data-value="1" id="tab-9605-1">
+              <div class="shiny-panel-conditional" data-display-if="input.goButton == 0 " data-ns-prefix="">
+                <br/>
+                <div class="row">
+                  <div class="col-sm-9">
+                    <h4>ShinyGO: a graphical gene-set enrichment tool for animals and plants</h4>
+                  </div>
+                  <div class="col-sm-3">
+                    <img src="shinygo_logo.png" width="43" height="50"/>
+                  </div>
+                </div>
+                <p>8/28/26: v.0.86.0 Ensembl Release 115 (925 species), STRING-db 12.0 (12,535 species), NCBI (v.6/15/2026, 2342 species), and 39 custom genomes. </p>
+                <p>
+                  You can still use the old versions using links on the About tab.
+                  To support this effort, please cite our paper like 
+                  <a href="https://scholar.google.com/scholar?oi=bibs&amp;hl=en&amp;cites=4205886424733220184&amp;as_sdt=5" target="_blank">these 4000+ papers.</a>
+                  Just including URL is not enough.
+                  <a href="mailto:gelabinfo@gmail.com?Subject=ShinyGO" target="_blank">Email Jenny </a>
+                  (gelabinfo@gmail.com) for questions, suggestions or data contributions.
+                  Follow Dr Ge on 
+                  <a href="https://twitter.com/StevenXGe" target="_blank">Twitter</a>
+                   and 
+                  <a href="https://www.linkedin.com/in/steven-ge-ab016947/" target="_blank">LinkedIn</a>
+                   for updates. 
+                  To request to add a new species/genome, fill in this 
+                  <a href="https://forms.gle/zLtLnqxkW187AgT76" target="_blank">Form.</a>
+                  We will try to accommodate commonly requested genomes. 
+                </p>
+                <p>
+                  Try our mirror site at 
+                  <a href="https://orditus.ai/go/" target="_blank">https://orditus.ai/go/</a>
+                  if this site is slow or unavailable.
+                </p>
+                <p>For-profit organizations: contact us for local installation or customization services.</p>
+                <p>
+                  Under active delovelopment with support from NIH. Report bugs or request features on our 
+                  <a href="https://github.com/gexijin/shinygo" target="_blank">GitHub repository.</a>
+                </p>
+                <p>NO WARRANTY. Please verify results using other tools.
+            Enrichment results may vary depending on gene ID mapping, data sources, 
+            database versions, and methods (particularily ranking).
+              </p>
+                <h3>GO Enrichment analysis, plus a lot more!</h3>
+                <p>Just paste your gene list to get enriched GO terms and othe pathways for over 14,000 species,
+				    based on annotation from Ensembl and STRING-db.</p>
+                <br/>
+                <img src="enrich.png" align="center" width="660" height="339"/>
+                <br/>
+                <img src="enrichmentChart.png" align="center" width="700" height="400"/>
+                <br/>
+                <br/>
+                <img src="KEGG2.png" align="center" width="541" height="360"/>
+                <br/>
+                <br/>
+                <img src="GOtree3.png" align="center" width="500" height="258"/>
+                <br/>
+                <br/>
+                <img src="GOnetwork2.png" align="center" width="500" height="248"/>
+                <br/>
+                <br/>
+                <img src="PPInetwork2.png" align="center" width="500" height="391"/>
+                <br/>
+                <br/>
+                <img src="chr.png" align="center" width="444" height="338"/>
+                <br/>
+                <br/>
+                <img src="downSyndrome.png" align="center" width="371" height="276"/>
+              </div>
+              <br/>
+              <div class="shiny-panel-conditional" data-display-if="input.goButton != 0" data-ns-prefix="">
+                <div style="display:inline-block">
+                  <div class="form-group shiny-input-container">
+                    <label class="control-label shiny-label-null" for="SortPathways" id="SortPathways-label"></label>
+                    <div>
+                      <select id="SortPathways" class="shiny-input-select"><option value="Sort by FDR">Sort by FDR</option>
+<option value="Sort by Fold Enrichment">Sort by Fold Enrichment</option>
+<option value="Sort by FDR &amp; Fold Enrichment">Sort by average ranks(FDR &amp; Fold)</option>
+<option value="Select by FDR, sort by Fold Enrichment" selected>Select by FDR, sort by Fold Enrichment</option>
+<option value="Sort by Genes">Sort by Genes</option>
+<option value="Sort by Category Name">Sort by Category Name</option></select>
+                      <script type="application/json" data-for="SortPathways" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="EnrichmentTable" class="shiny-html-output shiny-table-output"></div>
+              <div class="shiny-panel-conditional" data-display-if="input.goButton != 0" data-ns-prefix="">
+                <button id="askDownloadEnrichment" type="button" class="btn btn-default action-button">
+                  <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
+                  Top Pathways shown above
+                </button>
+                <button id="askDownloadEnrichmentAll" type="button" class="btn btn-default action-button">
+                  <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
+                  Results on all Pathways
+                </button>
+                <br/>
+                <br/>
+                <h3>Methods</h3>
+                <p>All query genes are converted to ENSEMBL gene IDs or STRING-db protein IDs,
+              as our gene ID mapping and pathway data primarily come from these sources. 
+              For model organisms, we manually compile extensive pathway lists from various
+              public databases.</p>
+                <p>P-values are calculated using the hypergeometric test, and false discovery 
+              rates (FDRs) are computed via the Benjamini-Hochberg method to correct for 
+              multiple testing. Fold enrichment is defined as the percentage of genes in 
+              your list that are in a pathway divided by the corresponding percentage in 
+              the background genes. While FDR measures statistical significance, fold 
+              enrichment indicates effect size.</p>
+                <p>We recommend that users provide their own list of background genes, which 
+              could include all genes detected in an experiment, such as genes with probes 
+              on a DNA microarray, passed a minimal filter in RNA-seq analysis, or detected 
+              in a proteomics experiment. If no background genes are uploaded, the default
+              is to use all protein-coding genes. Alternatively, you may select the option
+              'Use pathway DB for gene counts,' which calculates the background based on
+              the total number of unique genes in the chosen pathway database, limited
+              between 5,000 and 30,000 genes. When this option is selected, any genes in 
+              the user's original list that are not in the pathway database are excluded.</p>
+                <p>Only pathways within specified size limits, as defined by the 
+            'Pathway size: (Min, Max)' settings, are considered. Results for smaller
+            pathways can be noisy, but some pathways or GO terms have only a few genes. 
+            After analysis, pathways are filtered by a user-defined FDR cutoff. Significant 
+            pathways are then sorted in different ways, and only the top-ranked are shown 
+            in the table above.
+
+            By default, 'Select by FDR, then by Fold Enrichment' is used, where pathways
+            are first filtered and sorted by FDR, and then the top 20 are sorted by fold 
+            enrichment. In other words, the default setting shows the top 20 most 
+            significant pathways ranked by fold enrichment. When the 'Sort by average 
+            ranks (FDR &amp; fold enrichment)' option is selected, pathways are sorted by 
+            the average of their ranks based on both FDR and fold enrichment. When 
+            'Sort by FDR' is selected, pathways are ranked by FDR and only the top 20 are shown.
+
+            The 'Remove redundancy' option eliminates similar pathways that share 95% of 
+              their genes and 50% of the words in their names, representing them with the
+              pathway that has the highest significance.</p>
+                <h3>Interpreting GO Enrichment Results</h3>
+                <p>The Gene Ontology (GO) includes tens of thousands of terms (functional 
+              categories), each tested individually for enrichment. Hundreds or even 
+              thousands of GO terms can be statistically significant. These terms are 
+              filtered, ranked, and only the top ones are displayed. Understanding this
+              process is crucial for interpreting GO enrichment results.</p>
+                <ul>
+                  <li>P-value: Reflects the statistical significance of the enrichment.
+                      Lower values suggest a lower likelihood of the result occurring by
+                      chance under the null hypothesis. FDR q-values adjust P-values for
+                      multiple testing to control the proportion of type I errors.</li>
+                  <li>Fold Enrichment: Measures the magnitude of enrichment. Higher values
+                      indicate stronger enrichment and are an important metric of effect size.</li>
+                  <li>Pathway Genes: The total number of genes in a pathway or GO term.</li>
+                  <li>nGenes: The number of genes in the pathway that overlap with your gene list.</li>
+                </ul>
+                <p>Exercise caution when interpreting FDR values of 0.01 or 0.001 for GO 
+                  terms, as these levels often represent noise due to the vast number of 
+                  terms tested. For a gene list of reasonable size, more significant results 
+                  (FDR &lt; 1E-5) are expected.</p>
+                <p>Large pathways, such as the cell cycle, often show smaller FDRs due to 
+                  increased statistical power, while smaller pathways might have higher 
+                  FDRs despite their biological relevance. Enrichment analysis tends to 
+                  favor larger pathways.</p>
+                <p>With a default cutoff of FDR &lt; 0.05, thousands of significant GO terms
+                  may be detected, though only a subset is shown. Therefore, the method of
+                  filtering and ranking these terms is crucial.</p>
+                <p>With large sample sizes, small differences can appear extremely 
+                  significant. In addition to FDR, fold enrichment should also be 
+                  considered when prioritizing pathways, as it reflects the strength 
+                  of the enrichment. We offer several methods that consider both FDR 
+                  q-values and fold enrichment.</p>
+                <p>Many GO terms are closely related (e.g., 'Cell Cycle', 'Regulation of 
+                  Cell Cycle') and can dominate the top 20, obscuring other pathways. To 
+                  avoid this, consider examining the top 50 terms. Additionally, use tree
+                  plots and network plots to identify clusters of related GO terms and 
+                  uncover overarching themes.</p>
+                <p>Discuss the most significant pathways first, even if they do not fit 
+                  your initial expectations.</p>
+              </div>
+            </div>
+            <div class="tab-pane" data-value="3" id="tab-9605-2">
+              <div class="shiny-plot-output html-fill-item" id="enrichChart" style="width:100%;height:100%;"></div>
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="form-group shiny-input-container">
+                    <label class="control-label" id="SortPathwaysPlot-label" for="SortPathwaysPlot">
+                      <h5>Sort Pathway by</h5>
+                    </label>
+                    <div>
+                      <select id="SortPathwaysPlot" class="shiny-input-select"><option value="EnrichmentFDR">-log10(FDR)</option>
+<option value="FoldEnrichment" selected>Fold Enrichment</option>
+<option value="nGenes">Genes</option>
+<option value="Pathway">Category Name</option></select>
+                      <script type="application/json" data-for="SortPathwaysPlot" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group shiny-input-container">
+                    <label class="control-label" id="SortPathwaysPlotX-label" for="SortPathwaysPlotX">
+                      <h5>x-axis</h5>
+                    </label>
+                    <div>
+                      <select id="SortPathwaysPlotX" class="shiny-input-select"><option value="EnrichmentFDR">-log10(FDR)</option>
+<option value="FoldEnrichment" selected>Fold Enrichment</option>
+<option value="nGenes">Genes</option></select>
+                      <script type="application/json" data-for="SortPathwaysPlotX" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group shiny-input-container">
+                    <label class="control-label" id="SortPathwaysPlotColor-label" for="SortPathwaysPlotColor">
+                      <h5>Color</h5>
+                    </label>
+                    <div>
+                      <select id="SortPathwaysPlotColor" class="shiny-input-select"><option value="EnrichmentFDR" selected>-log10(FDR)</option>
+<option value="FoldEnrichment">Fold Enrichment</option>
+<option value="nGenes">Genes</option></select>
+                      <script type="application/json" data-for="SortPathwaysPlotColor" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group shiny-input-container">
+                    <label class="control-label" id="SortPathwaysPlotSize-label" for="SortPathwaysPlotSize">
+                      <h5>Size</h5>
+                    </label>
+                    <div>
+                      <select id="SortPathwaysPlotSize" class="shiny-input-select"><option value="EnrichmentFDR">-log10(FDR)</option>
+<option value="FoldEnrichment">Fold Enrichment</option>
+<option value="nGenes" selected>Genes</option></select>
+                      <script type="application/json" data-for="SortPathwaysPlotSize" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="form-group shiny-input-container">
+                    <label class="control-label" id="SortPathwaysPlotFontSize-label" for="SortPathwaysPlotFontSize">
+                      <h5>Font Size</h5>
+                    </label>
+                    <input id="SortPathwaysPlotFontSize" type="number" class="shiny-input-number form-control" value="12" data-update-on="change" min="3" max="18" step="1"/>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group shiny-input-container">
+                    <label class="control-label" id="SortPathwaysPlotMarkerSize-label" for="SortPathwaysPlotMarkerSize">
+                      <h5>Circle Size</h5>
+                    </label>
+                    <input id="SortPathwaysPlotMarkerSize" type="number" class="shiny-input-number form-control" value="4" data-update-on="change" min="0" max="10" step="1"/>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group shiny-input-container">
+                    <label class="control-label" id="SortPathwaysPlotHighColor-label" for="SortPathwaysPlotHighColor">
+                      <h5>Color:High</h5>
+                    </label>
+                    <div>
+                      <select id="SortPathwaysPlotHighColor" class="shiny-input-select"><option value="red" selected>red</option>
+<option value="orange">orange</option>
+<option value="yellow">yellow</option>
+<option value="green">green</option>
+<option value="blue">blue</option>
+<option value="purple">purple</option></select>
+                      <script type="application/json" data-for="SortPathwaysPlotHighColor" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group shiny-input-container">
+                    <label class="control-label" id="SortPathwaysPlotLowColor-label" for="SortPathwaysPlotLowColor">
+                      <h5>Color:Low</h5>
+                    </label>
+                    <div>
+                      <select id="SortPathwaysPlotLowColor" class="shiny-input-select"><option value="red">red</option>
+<option value="orange">orange</option>
+<option value="yellow">yellow</option>
+<option value="green">green</option>
+<option value="blue" selected>blue</option>
+<option value="purple">purple</option></select>
+                      <script type="application/json" data-for="SortPathwaysPlotLowColor" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="form-group shiny-input-container">
+                    <label class="control-label" id="enrichChartType-label" for="enrichChartType">
+                      <h5>Chart type</h5>
+                    </label>
+                    <div>
+                      <select id="enrichChartType" class="shiny-input-select"><option value="lollipop" selected>lollipop</option>
+<option value="dotplot">dotplot</option>
+<option value="barplot">barplot</option>
+<option value="barplot_inside">barplot_inside</option></select>
+                      <script type="application/json" data-for="enrichChartType" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group shiny-input-container">
+                    <label class="control-label" id="enrichChartAspectRatio-label" for="enrichChartAspectRatio">
+                      <h5>Aspect Ratio</h5>
+                    </label>
+                    <div>
+                      <select id="enrichChartAspectRatio" class="shiny-input-select"><option value="0.5">0.5</option>
+<option value="0.6">0.6</option>
+<option value="0.7">0.7</option>
+<option value="0.8">0.8</option>
+<option value="0.9">0.9</option>
+<option value="1">1</option>
+<option value="1.1">1.1</option>
+<option value="1.2">1.2</option>
+<option value="1.3">1.3</option>
+<option value="1.4">1.4</option>
+<option value="1.5">1.5</option>
+<option value="1.6">1.6</option>
+<option value="1.7">1.7</option>
+<option value="1.8">1.8</option>
+<option value="1.9">1.9</option>
+<option value="2" selected>2</option>
+<option value="2.1">2.1</option>
+<option value="2.2">2.2</option>
+<option value="2.3">2.3</option>
+<option value="2.4">2.4</option>
+<option value="2.5">2.5</option>
+<option value="2.6">2.6</option>
+<option value="2.7">2.7</option>
+<option value="2.8">2.8</option>
+<option value="2.9">2.9</option>
+<option value="3">3</option></select>
+                      <script type="application/json" data-for="enrichChartAspectRatio" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group shiny-input-container">
+                    <label class="control-label" id="ggplot2_theme-label" for="ggplot2_theme">
+                      <h5>Plot theme:</h5>
+                    </label>
+                    <div>
+                      <select class="shiny-input-select form-control" id="ggplot2_theme"><option value="default" selected>default</option>
+<option value="gray">gray</option>
+<option value="bw">bw</option>
+<option value="light">light</option>
+<option value="dark">dark</option>
+<option value="classic">classic</option>
+<option value="minimal">minimal</option>
+<option value="linedraw">linedraw</option>
+<option value="Add grid">Add grid</option></select>
+                    </div>
+                  </div>
+                  <span class="tippy html-widget html-fill-item" height="500" id="htmlwidget-915efc06ed43859e7de8" width="960"></span>
+                  <script type="application/json" data-for="htmlwidget-915efc06ed43859e7de8">{"x":{"element":"ggplot2_theme","opts":{"content":"Changes the ggplot2 theme for all plots, including those in the Plots tab.","theme":"light-border"}},"evals":[],"jsHooks":[]}</script>
+                </div>
+                <div class="col-sm-3" style="margin-top: 25px;">
+                  <button id="download_barplot-download_popup" type="button" class="btn btn-default action-button">Download Plot</button>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" data-value="4" id="tab-9605-3">
+              <h5>A hierarchical clustering tree summarizes the correlation among significant pathways
+                      listed in the Enrichment tab. Pathways with many shared genes are clustered together.
+                        Bigger dots indicate more significant P-values. The width of the plot can be
+                        changed by adjusting the width of your browser window.</h5>
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="form-group shiny-input-container">
+                    <label class="control-label" id="treeChartAspectRatio-label" for="treeChartAspectRatio">
+                      <h5>Aspect Ratio</h5>
+                    </label>
+                    <div>
+                      <select id="treeChartAspectRatio" class="shiny-input-select"><option value="0.5">0.5</option>
+<option value="0.6">0.6</option>
+<option value="0.7">0.7</option>
+<option value="0.8">0.8</option>
+<option value="0.9">0.9</option>
+<option value="1">1</option>
+<option value="1.1">1.1</option>
+<option value="1.2">1.2</option>
+<option value="1.3">1.3</option>
+<option value="1.4">1.4</option>
+<option value="1.5">1.5</option>
+<option value="1.6">1.6</option>
+<option value="1.7">1.7</option>
+<option value="1.8">1.8</option>
+<option value="1.9">1.9</option>
+<option value="2" selected>2</option>
+<option value="2.1">2.1</option>
+<option value="2.2">2.2</option>
+<option value="2.3">2.3</option>
+<option value="2.4">2.4</option>
+<option value="2.5">2.5</option>
+<option value="2.6">2.6</option>
+<option value="2.7">2.7</option>
+<option value="2.8">2.8</option>
+<option value="2.9">2.9</option>
+<option value="3">3</option>
+<option value="3.1">3.1</option>
+<option value="3.2">3.2</option>
+<option value="3.3">3.3</option>
+<option value="3.4">3.4</option>
+<option value="3.5">3.5</option>
+<option value="3.6">3.6</option>
+<option value="3.7">3.7</option>
+<option value="3.8">3.8</option>
+<option value="3.9">3.9</option>
+<option value="4">4</option></select>
+                      <script type="application/json" data-for="treeChartAspectRatio" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3" style="margin-top: 25px;">
+                  <button id="download_tree-download_popup" type="button" class="btn btn-default action-button">Download</button>
+                </div>
+              </div>
+              <div class="shiny-plot-output html-fill-item" id="GOTermsTree" style="width:100%;height:400px;"></div>
+            </div>
+            <div class="tab-pane" data-value="5" id="tab-9605-4">
+              <div class="row">
+                <div class="col-sm-2">
+                  <button id="layoutButton" type="button" class="btn btn-default action-button">Change layout</button>
+                </div>
+                <div class="col-sm-2">
+                  <button id="GONetwork" type="button" class="btn btn-default action-button">Static plot</button>
+                </div>
+                <div class="col-sm-2" align="left">
+                  <h5>Edge cutoff:</h5>
+                </div>
+                <div class="col-sm-2" align="right">
+                  <div class="form-group shiny-input-container">
+                    <label class="control-label shiny-label-null" for="edgeCutoff" id="edgeCutoff-label"></label>
+                    <input id="edgeCutoff" type="number" class="shiny-input-number form-control" value="0.3" data-update-on="change" min="0" max="1" step="0.1"/>
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-group shiny-input-container">
+                    <div class="checkbox">
+                      <label>
+                        <input id="wrapTextNetwork" type="checkbox" class="shiny-input-checkbox" checked="checked"/>
+                        <span>Wrap text</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="visNetwork html-widget html-widget-output shiny-report-size html-fill-item" id="enrichmentNetworkPlotInteractive" style="width:800px;height:800px;"></div>
+              <a id="enrichmentNetworkPlotInteractiveDownload" class="btn btn-default shiny-download-link disabled" href="" target="_blank" download aria-disabled="true" tabindex="-1">
+                <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
+                Download HTML
+              </a>
+              <a id="downloadEdges" class="btn btn-default shiny-download-link disabled" href="" target="_blank" download aria-disabled="true" tabindex="-1">
+                <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
+                Edges
+              </a>
+              <a id="downloadNodes" class="btn btn-default shiny-download-link disabled" href="" target="_blank" download aria-disabled="true" tabindex="-1">
+                <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
+                Nodes
+              </a>
+              <h5>Similar to the Tree tab, this interactive plot also shows the relationship between enriched pathways.
+       Two pathways (nodes) are connected if they share 20% (default) or more genes.
+       You can move the nodes by dragging them, zoom in and out by scrolling,
+       and shift the entire network by click on an empty point and drag.
+       Darker nodes are more significantly enriched gene sets.
+       Bigger nodes represent larger gene sets.
+       Thicker edges represent more overlapped genes.</h5>
+            </div>
+            <div class="tab-pane" data-value="2" id="tab-9605-5">
+              <div class="shiny-panel-conditional" data-display-if="input.selectGO != &#39;KEGG&#39; " data-ns-prefix="">
+                <br/>
+                <br/>
+                <h5>Please select KEGG from the pathway databases to conduct enrichment analysis first.
+            Then you can visualize your genes on any of the significant pathways. Only for some species.</h5>
+              </div>
+              <div class="shiny-panel-conditional" data-display-if="input.selectGO == &#39;KEGG&#39; " data-ns-prefix="">
+                <br/>
+                <div id="listSigPathways" class="shiny-html-output"></div>
+                <br/>
+                <div id="KeggImage" class="shiny-image-output" style="width:100%;height:100%;"></div>
+                <h5>Your genes are highlighted in red. Downloading pathway diagram from KEGG can take 3 minutes. </h5>
+              </div>
+            </div>
+            <div class="tab-pane" data-value="6" id="tab-9605-6">
+              <div class="row">
+                <div class="col-sm-3">
+                  <a id="downloadGeneInfo" class="btn btn-default shiny-download-link disabled" href="" target="_blank" download aria-disabled="true" tabindex="-1">
+                    <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
+                    More info
+                  </a>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group shiny-input-container">
+                    <div class="checkbox">
+                      <label>
+                        <input id="showDetailedGeneInfo" type="checkbox" class="shiny-input-checkbox"/>
+                        <span>Detailed Description</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="conversionTable" class="shiny-html-output shiny-table-output"></div>
+            </div>
+            <div class="tab-pane" data-value="7" id="tab-9605-7">
+              <a id="downloadGrouping" class="btn btn-default shiny-download-link disabled" href="" target="_blank" download aria-disabled="true" tabindex="-1">
+                <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
+                Download
+              </a>
+              <h5>Your genes are grouped by functional categories defined by high-level GO terms. </h5>
+              <div id="grouping" class="shiny-html-output shiny-table-output"></div>
+            </div>
+            <div class="tab-pane" data-value="8" id="tab-9605-8">
+              <h5>The characteristics of your genes are compared with the rest in the genome. Chi-squared and Student's
+              t-tests are run to see if your genes have special characteristics when compared with all the other genes or, if uploaded, a customized background.</h5>
+              <div class="row">
+                <div class="col-sm-4">
+                  <button id="download_gene_plot_dist-download_popup" type="button" class="btn btn-default action-button">Download density plots</button>
+                </div>
+                <div class="col-sm-4">
+                  <button id="download_gene_barplot-download_popup" type="button" class="btn btn-default action-button">Download barplots</button>
+                </div>
+              </div>
+              <br/>
+              <span id="genePlot2" class="shiny-plot-output"></span>
+              <span id="gene_barplot" class="shiny-plot-output"></span>
+            </div>
+            <div class="tab-pane" data-value="9" id="tab-9605-9">
+              <div class="plotly html-widget html-widget-output shiny-report-size shiny-report-theme html-fill-item" id="genomePlotly" style="width:100%;height:900px;"></div>
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="form-group shiny-input-container">
+                    <div class="checkbox">
+                      <label>
+                        <input id="labelGeneSymbol" type="checkbox" class="shiny-input-checkbox"/>
+                        <span>Label genes</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group shiny-input-container">
+                    <div class="checkbox">
+                      <label>
+                        <input id="ignoreNonCoding" type="checkbox" class="shiny-input-checkbox" checked="checked"/>
+                        <span>Coding genes only</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group shiny-input-container">
+                    <div class="checkbox">
+                      <label>
+                        <input id="show_all_chr" type="checkbox" class="shiny-input-checkbox"/>
+                        <span>All chr.</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <button id="gPlotstatic" type="button" class="btn btn-default action-button">Static plot</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="form-group shiny-input-container">
+                    <label class="control-label" id="MAwindowSize-label" for="MAwindowSize">
+                      <h5>Window Size(Mb)</h5>
+                    </label>
+                    <div>
+                      <select id="MAwindowSize" class="shiny-input-select"><option value="1">1</option>
+<option value="2">2</option>
+<option value="4">4</option>
+<option value="6" selected>6</option>
+<option value="8">8</option>
+<option value="10">10</option>
+<option value="15">15</option>
+<option value="20">20</option></select>
+                      <script type="application/json" data-for="MAwindowSize" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group shiny-input-container">
+                    <label class="control-label" id="MAwindowSteps-label" for="MAwindowSteps">
+                      <h5>Steps in a window</h5>
+                    </label>
+                    <div>
+                      <select id="MAwindowSteps" class="shiny-input-select"><option value="1">1</option>
+<option value="2" selected>2</option>
+<option value="3">3</option>
+<option value="4">4</option></select>
+                      <script type="application/json" data-for="MAwindowSteps" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group shiny-input-container">
+                    <label class="control-label" id="chRegionPval-label" for="chRegionPval">
+                      <h5>FDR cutoff for windows</h5>
+                    </label>
+                    <div>
+                      <select id="chRegionPval" class="shiny-input-select"><option value="0.1">0.1</option>
+<option value="0.05">0.05</option>
+<option value="0.01">0.01</option>
+<option value="0.001">0.001</option>
+<option value="1e-04">1e-04</option>
+<option value="1e-05" selected>1e-05</option>
+<option value="1e-06">1e-06</option></select>
+                      <script type="application/json" data-for="chRegionPval" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h5>The genes are represented by red dots. The purple lines indicate regions where
+                        these genes are statistically enriched, compared to the density of genes in the background.
+                        We scanned the genome with a sliding window. Each window is further divided into several
+                        equal-sized steps for sliding. Within each window we used the hypergeometric test to
+                        determine if your genes are significantly overrepresented. Essentially, the genes in
+                        each window define a gene set/pathway, and we carried out enrichment analysis. The
+                        chromosomes may be only partly shown as we use the last gene's location to draw the line.
+                        Mouse over to see gene symbols. Zoom in regions of interest.</h5>
+            </div>
+            <div class="tab-pane" data-value="11" id="tab-9605-10">
+              <div id="STRINGDB_mapping_stat" class="shiny-text-output"></div>
+              <br/>
+              <button id="ModalPPI" type="button" class="btn btn-default action-button">PPI network of DEGs</button>
+              <br/>
+              <br/>
+              <div class="form-group shiny-input-container">
+                <label class="control-label" id="STRINGdbGO-label" for="STRINGdbGO">Functional Enrichment</label>
+                <div>
+                  <select id="STRINGdbGO" class="shiny-input-select"><option value="Process" selected>GO Biological Process</option>
+<option value="Component">GO Cellular Component</option>
+<option value="Function">GO Molecular Function</option>
+<option value="KEGG">KEGG</option>
+<option value="Pfam">Pfam</option>
+<option value="InterPro">InterPro</option></select>
+                  <script type="application/json" data-for="STRINGdbGO" data-nonempty="">{"plugins":["selectize-plugin-a11y"]}</script>
+                </div>
+              </div>
+              <a id="STRING_enrichmentDownload" class="btn btn-default shiny-download-link disabled" href="" target="_blank" download aria-disabled="true" tabindex="-1">
+                <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
+                Download
+              </a>
+              <div id="stringDB_GO_enrichment" class="shiny-html-output shiny-table-output"></div>
+              <br/>
+              <br/>
+              <h5>To validate your results independent of our algorithm and database, 
+            your genes are sent to STRING-db website for enrichment analysis. 
+            This also enables the
+             retrieval of a protein-protein network. If it is running, 
+             please wait until it finishes. The second time it is faster.</h5>
+            </div>
+            <div class="tab-pane" data-value="12" id="tab-9605-11">
+              <p>
+                ShinyGO is developed and maintained by a small team at 
+                <a href="https://www.sdstate.edu/" target="_blank">South Dakota State University (SDSU). </a>
+                Our team consists of 
+                <a href="https://www.sdstate.edu/directory/xijin-ge" target="_blank"> Xijin Ge (PI), </a>
+                Jianli Qi (research associate), and
+        a few graduate students.
+              </p>
+               For feedbacks, 
+              <a href="mailto:gelabinfo@gmail.com?Subject=ShinyGO" target="_blank">email us, </a>
+              or file a bug report or feature request on our
+              <a href="https://github.com/gexijin/shinygo" target="_blank"> GitHub repository, </a>
+               where you can also find the source code.
+              For details, please see our
+              <a href="https://doi.org/10.1093/bioinformatics/btz931" target="_blank">paper</a>
+              and a detailed
+              <a href="https://www.biorxiv.org/content/biorxiv/suppl/2018/05/04/315150.DC1/315150-1.pdf" target="_blank">demo.</a>
+              ShinyGO shares many functionalities and databases with 
+              <a href="http://bioinformatics.sdstate.edu/idep/" target="_blank">iDEP.</a>
+              <br/>
+              <br/>
+              <strong>Citation (Just including URL is not enough!):</strong>
+              <br/>
+              Ge SX, Jung D &amp; Yao R,
+              <a href="https://doi.org/10.1093/bioinformatics/btz931" target="_blank"> Bioinformatics 36:2628–2629, 2020.</a>
+               If you use the KEGG diagram, please also cite 
+              <a href="https://doi.org/10.1093/nar/gkaa970" target="_blank">KEGG.</a>
+              <br/>
+              <br/>
+              <strong>Previous versions are still functional:</strong>
+              <br/>
+              <a href="http://bioinformatics.sdstate.edu/go85/" target="_blank">ShinyGO V0.85.2, </a>
+              based on Ensembl Release 113, archived on Aug 28, 2026
+              <br/>
+              <a href="http://bioinformatics.sdstate.edu/go82/" target="_blank">ShinyGO V0.82, </a>
+              based on Ensembl Release 104, archived on Sept 5, 2025
+              <br/>
+              <a href="http://bioinformatics.sdstate.edu/go81/" target="_blank">ShinyGO V0.81, </a>
+              based on Ensembl Release 104, archived on Feb. 3, 2025
+              <br/>
+              <a href="http://bioinformatics.sdstate.edu/go80/" target="_blank">ShinyGO V0.80, </a>
+              based on Ensembl Release 104, archived on Oct 25, 2024
+              <br/>
+              <a href="http://bioinformatics.sdstate.edu/go77/" target="_blank">ShinyGO V0.77, </a>
+              based on Ensembl Release 104, archived on Jan. 5, 2024
+              <br/>
+              <a href="http://bioinformatics.sdstate.edu/go76/" target="_blank">ShinyGO V0.76, </a>
+              based on Ensembl Release 104 with revision, archived on September 2, 2022
+              <br/>
+              <a href="http://bioinformatics.sdstate.edu/go75/" target="_blank">ShinyGO V0.75, </a>
+              based on Ensembl Release 104 with revision, archived on April 4, 2022
+              <br/>
+              <a href="http://bioinformatics.sdstate.edu/go74/" target="_blank">ShinyGO V0.74, </a>
+              based on Ensembl Release 104, archived on Feb. 8, 2022
+              <br/>
+              <a href="http://bioinformatics.sdstate.edu/go65/" target="_blank">ShinyGO V0.65, </a>
+              based on Ensembl Release 103, archived on Oct. 15, 2021
+              <br/>
+              <a href="http://bioinformatics.sdstate.edu/go61/" target="_blank">ShinyGO V0.61, </a>
+              based on Ensembl Release 96, archived on May 23, 2020
+              <br/>
+              <a href="http://bioinformatics.sdstate.edu/go60/" target="_blank">ShinyGO V0.60, </a>
+              based on Ensembl Release version 96, archived on Nov 6, 2019
+              <br/>
+              <a href="http://bioinformatics.sdstate.edu/go51/" target="_blank">ShinyGO V0.51, </a>
+              based on Ensembl Release version 95, archived on May 20, 2019
+              <br/>
+              <a href="http://bioinformatics.sdstate.edu/go50/" target="_blank">ShinyGO V0.50, </a>
+              based on Ensembl Release version 92, archived on March 29, 2019
+              <br/>
+              <a href="http://bioinformatics.sdstate.edu/go41/" target="_blank">ShinyGO V0.41, </a>
+              based on Ensembl Release version 91, archived on July 11, 2018
+              <br/>
+              <h5>Genomes based on STRING-db is marked as STRING-db. If the same genome is included in both Ensembl and STRING-db, users should
+            use Ensembl annotation, as it is more updated and is supported in more functional modules. </h5>
+              <h4>Input:</h4>
+              A list of gene ids, separated by tab, space, comma or the newline characters.
+		   Ensembl gene IDs are used internally to identify genes. Other types of IDs will be mapped to Ensembl
+		   gene IDs using ID mapping information available in Ensembl BioMart. 
+              <h4>Output:</h4>
+              Enriched GO terms and pathways:
+              <br/>
+              <img src="enrich.png" align="center" width="660" height="339"/>
+              <br/>
+              <br/>
+              In addition to the enrichment table, a set of plots are produced. If KEGG database is choosen, then enriched pathway diagrams are shown, with user's genes highlighted, like this one below:
+              <br/>
+              <img src="KEGG.png" align="center" width="696" height="494"/>
+              <br/>
+              <br/>
+              Many GO terms are related. Some are even redundant, like "cell cycle" and "cell cycle process".
+		 To visualize such relatedness in enrichment results, we use a hierarchical clustering tree and network.
+		 In this hierarchical clustering tree, related GO terms are grouped together based on how many genes they share. The size of the solid circle corresponds to the enrichment FDR.
+              <br/>
+              <img src="GOtree.png" align="center" width="700" height="361"/>
+              <br/>
+              <br/>
+              In this network below, each node represents an enriched GO term. Related GO terms are connected by a line, whose thickness reflects percent of overlapping genes. The size of the node corresponds to number of genes.
+              <br/>
+              <img src="GOnetwork.png" align="center" width="500" height="248"/>
+              <br/>
+              <br/>
+              Through API access to STRING-db, we also retrieve a protein-protein interaction (PPI) network. In addition to a static network image, users can also get access to interactive graphics at the www.string-db.org web server.
+              <br/>
+              <img src="PPInetwork.png" align="center" width="700" height="547"/>
+              <br/>
+              <br/>
+              ShinyGO also detects transcription factor (TF) binding motifs enriched in the promoters of user's genes.
+              <br/>
+              <br/>
+              <img src="promoter.png" align="center" width="717" height="288"/>
+              <h4>Sources for human pathway databases: </h4>
+<div class="WordSection1">
+<table class="MsoNormalTable" style="margin-left:-1.5pt;border-collapse:collapse;" border="0" cellspacing="0" cellpadding="0">
+<tbody>
+<tr style="height:15.8pt;">
+<td style="width:128pt;border-top:solid windowtext 1.5pt;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:none;background:white;padding:0 5.4pt;height:15.8pt;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="font-size:12pt;color:black;">Type</span></b></p>
+</td>
+<td style="width:156pt;border-top:solid windowtext 1.5pt;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:none;background:white;padding:0 5.4pt;height:15.8pt;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="font-size:12pt;color:black;">Subtype/Database name</span></b></p>
+</td>
+<td style="width:105.6pt;border-top:solid windowtext 1.5pt;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:none;background:white;padding:0 5.4pt;height:15.8pt;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-size:12pt;color:black;">#<span class="SpellE">GeneSets</span></span></b></p>
+</td>
+<td style="width:133.6pt;border-top:solid windowtext 1.5pt;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:none;background:white;padding:0 5.4pt;height:15.8pt;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-size:12pt;color:black;">Source</span></b></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="font-family:'Calibri', sans-serif;color:black;">Gene Ontology</span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">Biological Process (BP)</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">15796</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">Ensembl 92</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">Cellular Component (CC)</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">1916</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">Ensembl 92</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">Molecular Function (MF)</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">4605</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">Ensembl 92</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="font-family:'Calibri', sans-serif;color:black;">KEGG</span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">KEGG</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">327</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">Release 86.1</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="font-family:'Calibri', sans-serif;color:black;">Curated</span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">Biocarta</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">249</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">Whichgenes</span></span><span style="font-family:'Calibri', sans-serif;color:black;"> 1.5</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB.EHMN</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">55</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB</span></span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">Panther</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">168</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">1.0.4</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">HumanCyc</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">240</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">pathway Commons V9</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">INOH</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">576</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">pathway Commons V9</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">NetPath</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">27</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">pathway Commons V9</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">PID</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">223</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">pathway Commons V9</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">PSP</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">327</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">pathway Commons V9</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">Recon X </span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">2339</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">pathway Commons V9</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">Reactome</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">2010</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">V64</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">Wiki</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">457</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">20180610</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span class="GramE"><b><span style="font-family:'Calibri', sans-serif;color:black;">TF.Target</span></b></span></span><b></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">CircuitsDB.TF</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">829</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">V2012</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">ENCODE</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">181</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">V70.0</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">Marbach2016</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">628</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">regulatorycircuits</span></span><span style="font-family:'Calibri', sans-serif;color:black;"> Release 1.0 </span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">RegNetwork.TF</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">1400</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">7/1/2017</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">TFacts</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">428</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">Feb. 2012</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span class="GramE"><span style="font-family:'Calibri', sans-serif;color:black;">tftargets.ITFP</span></span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">1926</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">tftargets</span></span><span style="font-family:'Calibri', sans-serif;color:black;"> May,2017</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="GramE"><span style="font-family:'Calibri', sans-serif;color:black;">tftargets.Neph</span></span><span style="font-family:'Calibri', sans-serif;color:black;">2012</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">16476</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">tftargets</span></span><span style="font-family:'Calibri', sans-serif;color:black;"> May,2017</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span class="GramE"><span style="font-family:'Calibri', sans-serif;color:black;">tftargets.TRED</span></span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">131</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">tftargets</span></span><span style="font-family:'Calibri', sans-serif;color:black;"> May,2017</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">TRRUST</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">793</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">V2</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><b><span style="font-family:'Calibri', sans-serif;color:black;">miRNA.Targets</span></b></span><b></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">CircuitsDB.miRNA</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">140</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">V. 2012</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB.MicroCosm</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">44</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB</span></span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">miRDB</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">2588</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">V 5.0</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">miRTarBase</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">2599</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">V 7.0</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">RegNetwork.miRNA</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">618</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">V. 2015</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">TargetScan</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">219</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">V7.2</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><b><span style="font-family:'Calibri', sans-serif;color:black;">MSigDB.Computational</span></b></span><b></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">Computational gene sets </span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">858</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">MSigDB</span></span><span style="font-family:'Calibri', sans-serif;color:black;"> 6.1</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><b><span style="font-family:'Calibri', sans-serif;color:black;">MSigDB.Curated</span></b></span><b></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">Literature</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">3465</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">MSigDB</span></span><span style="font-family:'Calibri', sans-serif;color:black;"> 6.1</span></p>
+</td>
+</tr>
+<tr style="height:17.2pt;">
+<td style="width:128pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><b><span style="font-family:'Calibri', sans-serif;color:black;">MSigDB.Hallmark</span></b></span><b></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">hallmark</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">50</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">MSigDB</span></span><span style="font-family:'Calibri', sans-serif;color:black;"> 6.1</span></p>
+</td>
+</tr>
+<tr style="height:17.2pt;">
+<td style="width:128pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><b><span style="font-family:'Calibri', sans-serif;color:black;">MSigDB.Immune</span></b></span><b></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">Immune system</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">4872</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">MSigDB</span></span><span style="font-family:'Calibri', sans-serif;color:black;"> 6.1</span></p>
+</td>
+</tr>
+<tr style="height:17.2pt;">
+<td style="width:128pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><b><span style="font-family:'Calibri', sans-serif;color:black;">MSigDB.Location</span></b></span><b></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">Cytogenetic band</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">326</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">MSigDB</span></span><span style="font-family:'Calibri', sans-serif;color:black;"> 6.1</span></p>
+</td>
+</tr>
+<tr style="height:17.2pt;">
+<td style="width:128pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><b><span style="font-family:'Calibri', sans-serif;color:black;">MSigDB.Motif</span></b></span><b></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">TF and miRNA Motifs</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">836</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">MSigDB</span></span><span style="font-family:'Calibri', sans-serif;color:black;"> 6.1</span></p>
+</td>
+</tr>
+<tr style="height:17.2pt;">
+<td style="width:128pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><b><span style="font-family:'Calibri', sans-serif;color:black;">MSigDB.Oncogenic</span></b></span><b></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">Oncogenic signatures</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">189</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">MSigDB</span></span><span style="font-family:'Calibri', sans-serif;color:black;"> 6.1</span></p>
+</td>
+</tr>
+<tr style="height:17.2pt;">
+<td style="width:128pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="font-family:'Calibri', sans-serif;color:black;">PPI</span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">BioGRID</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">15542</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">3.4.160</span></p>
+</td>
+</tr>
+<tr style="height:17.2pt;">
+<td style="width:128pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">CORUM</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">2178</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:17.2pt;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">02.07.2017</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">BIND</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">3807</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">pathway Commons V9</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">DIP</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">2630</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">pathway Commons V9</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">HPRD</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">7141</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">pathway Commons V9</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">IntAct</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">11991</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">pathway Commons V9</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="font-family:'Calibri', sans-serif;color:black;">Drug</span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB.MATADOR</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">266</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB</span></span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB.SIDER</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">473</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB</span></span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB.STITCH</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">4616</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB</span></span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB.T3DB</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">846</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB</span></span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">SMPDB</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">699</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">pathway Commons V9</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">CTD</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">8758</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">pathway Commons V9</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">Drugbank</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">2563</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">pathway Commons V9</span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="font-family:'Calibri', sans-serif;color:black;">Other</span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB.CancerGenes</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">23</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB</span></span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB.MethCancerDB</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">21</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB</span></span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB.MethyCancer</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">54</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB</span></span></p>
+</td>
+</tr>
+<tr style="height:.2in;">
+<td style="width:128pt;padding:0 5.4pt;height:.2in;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:.2in;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB.MPO</span></span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">3134</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:.2in;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span class="SpellE"><span style="font-family:'Calibri', sans-serif;color:black;">GeneSetDB</span></span></p>
+</td>
+</tr>
+<tr style="height:15pt;">
+<td style="width:128pt;padding:0 5.4pt;height:15pt;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:156pt;padding:0 5.4pt;height:15pt;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-family:'Calibri', sans-serif;color:black;">HPO</span></p>
+</td>
+<td style="width:105.6pt;padding:0 5.4pt;height:15pt;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">6785</span></p>
+</td>
+<td style="width:133.6pt;padding:0 5.4pt;height:15pt;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;">May,2018</span></p>
+</td>
+</tr>
+<tr style="height:15.8pt;">
+<td style="width:128pt;border-top:solid windowtext 1.5pt;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:none;background:white;padding:0 5.4pt;height:15.8pt;" valign="top" width="171">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-size:12pt;color:black;">Total:</span></p>
+</td>
+<td style="width:156pt;border-top:solid windowtext 1.5pt;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:none;background:white;padding:0 5.4pt;height:15.8pt;" valign="top" width="208">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="font-size:12pt;color:black;"> </span></p>
+</td>
+<td style="width:105.6pt;border-top:solid windowtext 1.5pt;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:none;background:white;padding:0 5.4pt;height:15.8pt;" valign="top" width="141">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-size:12pt;color:black;">140,438</span></p>
+</td>
+<td style="width:133.6pt;border-top:solid windowtext 1.5pt;border-left:none;border-bottom:solid windowtext 1.5pt;border-right:none;background:white;padding:0 5.4pt;height:15.8pt;" valign="top" width="178">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-size:12pt;color:black;"> </span></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h4>Sources for mouse pathway databases: </h4>
+<div class="WordSection1">
+<table class="MsoNormalTable" style="margin-left:-1.5pt;border-collapse:collapse;" border="0" cellspacing="0" cellpadding="0">
+<tbody>
+<tr style="height:15.25pt;">
+<td style="width:78.1pt;border:none;border-bottom:solid windowtext 1.5pt;padding:0 5.4pt;height:15.25pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="font-family:'Calibri', sans-serif;color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;border:none;border-bottom:solid windowtext 1.5pt;padding:0 5.4pt;height:15.25pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;"> </span></p>
+</td>
+<td style="width:36.2pt;border:none;border-bottom:solid windowtext 1.5pt;padding:0 5.4pt;height:15.25pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;"> </span></p>
+</td>
+<td style="width:246.6pt;border:none;border-bottom:solid windowtext 1.5pt;padding:0 5.4pt;height:15.25pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="font-family:'Calibri', sans-serif;color:black;"> </span></p>
+</td>
+</tr>
+<tr style="height:16.7pt;">
+<td style="width:78.1pt;border:none;border-bottom:solid windowtext 1.5pt;padding:0 5.4pt;height:16.7pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="color:black;">Type</span></b></p>
+</td>
+<td style="width:86.2pt;border:none;border-bottom:solid windowtext 1.5pt;padding:0 5.4pt;height:16.7pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="color:black;">Source</span></b></p>
+</td>
+<td style="width:36.2pt;border:none;border-bottom:solid windowtext 1.5pt;padding:0 5.4pt;height:16.7pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="color:black;">#Sets</span></b></p>
+</td>
+<td style="width:246.6pt;border:none;border-bottom:solid windowtext 1.5pt;padding:0 5.4pt;height:16.7pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="color:black;">Note</span></b></p>
+</td>
+</tr>
+<tr style="height:28.3pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:28.3pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="color:black;">Co-expression</span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:28.3pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Literature</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:28.3pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">8,742</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:28.3pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Differentially expressed genes from 2526
+studies</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="color:black;">MSigDB</span></span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">3,964</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Molecular Signature Database, v.6.0</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">L2L</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">248</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">List of <span class="GramE">lists,  v.</span>2006.2</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="color:black;">CancerGenes</span></span><span style="color:black;">*</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">23</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Cancer gene lists</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="color:black;">GeneSigDB</span></span></p>
+</td>
+<td style="width:36.2pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">494</span></p>
+</td>
+<td style="width:246.6pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Gene Signature <span class="GramE">Database,  R.</span>4</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="color:black;">Gene </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">GO_BP</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">11,943</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">V2017.5</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="color:black;">Ontology</span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">GO_MF</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">2,932</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;"> </span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">GO_CC</span></p>
+</td>
+<td style="width:36.2pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">1,475</span></p>
+</td>
+<td style="width:246.6pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;"> </span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="color:black;">Curated </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="color:black;">Biocarta</span></span><span style="color:black;">*</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">176</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Metabolic and signaling pathways</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="color:black;">pathways</span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">PANTHER</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">151</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Ontology-based pathway <span class="GramE">database,  v</span>3.4.1</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="color:black;">WikiPathways</span></span><span style="color:black;">*</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">146</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Open platform for pathway curation</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">INOH*</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">73</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Integrating network objects with hierarchies</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="color:black;">NetPath</span></span><span style="color:black;">*</span></p>
+</td>
+<td style="width:36.2pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">25</span></p>
+</td>
+<td style="width:246.6pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Signal transduction pathways</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="color:black;">Metabolic </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">KEGG</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">314</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Metabolic pathways, R.82.0</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="color:black;">pathways</span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">EHMN*</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">53</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Edinburgh human metabolic network</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="color:black;">MouseCyc</span></span></p>
+</td>
+<td style="width:36.2pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">321</span></p>
+</td>
+<td style="width:246.6pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Mouse Biochemical <span class="GramE">Pathways
+,</span> v2013.7</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="color:black;">Drug </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">CTD*</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">910</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">The Comparative <span class="SpellE">Toxicogenomics</span>
+Database</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="color:black;">related</span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">SIDER*</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">460</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Side Effect Resource</span></p>
+</td>
+</tr>
+<tr style="height:29.05pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:29.05pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:29.05pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">MATADOR*</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:29.05pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">248</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:29.05pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Manually Annotated Targets and Drugs Online
+Resource</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="color:black;">DrugBank</span></span><span style="color:black;">*</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">136</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Open data drug and target database</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">SMPDB*</span></p>
+</td>
+<td style="width:36.2pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">74</span></p>
+</td>
+<td style="width:246.6pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Small Molecule Pathway Database</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="color:black;">miRNA</span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="color:black;">miRDB</span></span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">1,912</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">miRNA target prediction and annotations, v
+5.0</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="color:black;">Target </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">microRNA.org</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">314</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Predicted miRNA targets, <span class="GramE">v.R</span>2010</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="color:black;">Genes</span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="color:black;">Grimson</span></span><span style="color:black;"> et al.</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">179</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Predicted miRNA targets. v.6.2</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="color:black;">TarBase</span></span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">84</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Experimentally validated miRNA targets, v.6.0</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="color:black;">miRTarBase</span></span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">775</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Experimentally validated miRNA targets, V6.1</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="color:black;">MicroCosm</span></span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">464</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Predicted targets</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="color:black;">PicTar</span></span></p>
+</td>
+<td style="width:36.2pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">35</span></p>
+</td>
+<td style="width:246.6pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Predicted miRNA sites, v. 2007.3</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="color:black;">TF Target</span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="color:black;">TFactS</span></span><span style="color:black;">*</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">101</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Predicted TF targets</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="color:black;">Genes</span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">TRED</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">99</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Confirmed TF target genes, v.2013.7</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="color:black;">CircuitsDB</span></span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">94</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Mixed miRNA/TF regulation, v. 2012</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">TRANSFAC</span></p>
+</td>
+<td style="width:36.2pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">78</span></p>
+</td>
+<td style="width:246.6pt;border:none;border-bottom:solid windowtext 1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Confirmed TF binding sites, v7.0</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><b><span style="color:black;">Others</span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Location</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">341</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Genomic location on chromosomes, v.2017</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">HPO*</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">1,518</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">The human phenotype ontology</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">STITCH*</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">3,929</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Interaction networks of chemicals and
+proteins</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">MPO*</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">2,943</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Mammalian Phenotype Ontology</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">T3DB*
+</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">722</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Database of common toxins and their targets</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">PID*</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">193</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Pathway Interaction Database</span></p>
+</td>
+</tr>
+<tr style="height:14.5pt;">
+<td style="width:78.1pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="color:black;">MethyCancer</span></span><span style="color:black;">*</span></p>
+</td>
+<td style="width:36.2pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">50</span></p>
+</td>
+<td style="width:246.6pt;padding:0 5.4pt;height:14.5pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Human DNA methylation and cancer</span></p>
+</td>
+</tr>
+<tr style="height:16.7pt;">
+<td style="width:78.1pt;border:none;border-bottom:solid windowtext 1.5pt;padding:0 5.4pt;height:16.7pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;border:none;border-bottom:solid windowtext 1.5pt;padding:0 5.4pt;height:16.7pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span class="SpellE"><span style="color:black;">MethCancerDB</span></span><span style="color:black;">*</span></p>
+</td>
+<td style="width:36.2pt;border:none;border-bottom:solid windowtext 1.5pt;padding:0 5.4pt;height:16.7pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">19</span></p>
+</td>
+<td style="width:246.6pt;border:none;border-bottom:solid windowtext 1.5pt;padding:0 5.4pt;height:16.7pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Aberrant DNA methylation in human cancer</span></p>
+</td>
+</tr>
+<tr style="height:15.25pt;">
+<td style="width:78.1pt;border:none;border-bottom:solid windowtext 1.5pt;padding:0 5.4pt;height:15.25pt;" valign="top" width="104">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><b><span style="color:black;"> </span></b></p>
+</td>
+<td style="width:86.2pt;border:none;border-bottom:solid windowtext 1.5pt;padding:0 5.4pt;height:15.25pt;" valign="top" width="115">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">Total</span></p>
+</td>
+<td style="width:36.2pt;border:none;border-bottom:solid windowtext 1.5pt;padding:0 5.4pt;height:15.25pt;" valign="top" width="48">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:right;line-height:normal;" align="right"><span style="color:black;">46,758</span></p>
+</td>
+<td style="width:246.6pt;border:none;border-bottom:solid windowtext 1.5pt;padding:0 5.4pt;height:15.25pt;" valign="top" width="329">
+<p class="MsoNormal" style="margin-bottom:.0001pt;text-align:left;line-height:normal;" align="left"><span style="color:black;">*Secondary data from <span class="SpellE">GeneSetDB</span></span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="MsoNormal"></p>
+
+</div>
+              <br/>
+              <h4>Changes:</h4>
+              <p>9/5/25: v.0.85. Database updated to Ensembl Release 113 and STRING-db v12. </p>
+              <p>2/3/25: v.0.82. Fix issues caused by multiple ENSEMBL IDs for the same gene on patched chromosomes, causing inaccurate enrichment results. Duplicated ENSEMBL IDs are now ignored. </p>
+              <p>10/26/24: v0.81. Disabled the switch of species during analysis. Fixed errors with STRING tab when STRINGdb species are used. 
+            If a gene ID maps multiple Ensembl genes, all are kept for enrichment. </p>
+              <p>10/25/24: Migrated to new server. Upgraded R to 4.4.0.</p>
+              <p>4/21/2024: New barchart with GO terms on the bars.</p>
+              <p>4/12/2024: Max set size is increased to 5000 from 2000. Some meaningful GO terms (RNA biosynthetic proc.) contains 4000+ genes. </p>
+              <p>4/21/2024: New barchart with GO terms on the bars.</p>
+              <p>4/20/2024: UI adjustment</p>
+              <p>4/12/2024: Max set size is increased to 5000 from 2000. Some meaningful GO terms (RNA biosynthetic proc.) contains 4000+ genes. </p>
+              <p>1/5/2024: ShinyGO 0.80 becomes default. You have to select your species first. Database is updated to Ensembl release
+             107 which includes 620 species: 215 main, 177 metazoa, 124 plants, 33 protists and 1 bacteria. 
+            We also included 14,094 species from STRING-DB 11.5.</p>
+              <p style="color:red">5/1/2023: ShinyGO 0.80 release in testing mode. Thanks to Jenny's hardwork, we update to Ensembl release
+             107 which includes 620 species: 215 main, 177 metazoa, 124 plants, 33 protists and 1 bacteria. 
+            We also included 14,094 species from STRING-DB 11.5.</p>
+              <p>Jan. 19, 2023: Thanks to a user's feedback, we found a serious bug
+              in ShinyGO 0.76.
+              As some genes are represented by multiple gene IDs in Ensebml, they are counted more
+              than once in calculating enrichment. We believe this is fixed. If you
+              pasted Ensembl gene IDs to ShinyGO 0.76 between April 4, 2022 and Jan. 19, 2023,
+              please rerun your analysis. ShinyGO has not been throughly tested.
+              Please always double check your results with other tools
+              such as G:profiler, Enrichr, STRING-db, and DAVID.</p>
+              <p>Oct 26, 2022: V. 0.76.3 Add hover text. Change plot styles.
+             When users select "Sort by Fold Enrichment",
+             the minimum pathway size is raised to 10 to
+             filter out noise from tiny gene sets.</p>
+              <p>Sept 28, 2022: In ShinyGO 0.76.2, KEGG is now the default pathway database. More importantly,
+                    we reverted to 0.76 for default gene counting method, namely
+                    all protein-coding genes are used as the background by default.
+                    The new feature introduced in 0.76.1, which uses the pathway database
+                    to determine total number of genes in the background, can be turned on as an option
+                    ('Use pathway database for gene counts').
+                    This is based on feedback from some users that
+                     when using smaller pathway databases, such as KEGG, the new method changes
+                     the P values substantially.</p>
+              <p>Sept 3, 2022: ShinyGO 0.76.1. In this small improvement, we improved how we count the number of genes for
+                    calculating P value. A gene must match at least one pathway in the selected pathway database. Otherwise this gene
+                    is ignored in the calculation of P values based on hypergeometric distribution. This applies to both query and background genes. </p>
+              <p>
+                April 19, 2022: ShinyGO 0.76 released. Improved pathway filtering, pathway sorting, figure downloading.
+                       Version 0.75 is available
+                <a href="http://bioinformatics.sdstate.edu/go75" target="_blank">here.</a>
+              </p>
+              <p>April 17, 2022: Add more flexiblity for download figures in PDF, SVG and high-res PNG.</p>
+              <p>April 8, 2022: Add features to remove redundant pathways. Add filter to remove extrmely large or small pathways. Changed interface to always show KEGG tab.</p>
+              <p>Mar. 7, 2022: Fixed an R library issue affected KEGG diagrams for some organisms.</p>
+              <p>Feb. 26, 2022: Fixed a bug regarding the Plot tab when background genes are used. Background genes were not correctly
+                    used to calculate the distributions of various gene characteristics. If these plots are important in your study, please re-analyze your genes.</p>
+              <p style="color:red">Feb. 19, 2022: R upgraded from 4.05 to 4.1.2. This solved the STRING API issues. Some Bioconductor packages are also upgraded.</p>
+              <p style="color:red">Feb. 8, 2022: ShinyGO v0.75 officially released. Old versions are still available. See the last tab.</p>
+              <p>Nov. 15, 2021: Database update. ShinyGO v0.75 available in testing mode. It includes Ensembl database update, new species from Ensembl Fungi and Ensembl Protists, and STRINGdb (5090 species) update to 11.5.</p>
+              <p>Oct25, 2021: Interactive genome plot. Identificantion of genomic regions signficantly enriched with user genes.</p>
+              <p>Oct.23, 2021: Version 0.741 A fully customizable enrichment chart! Switch between bar, dot or lollipop plots.  Detailed gene informations with links on the Genes tab.</p>
+              <p>Oct. 15, 2021: Version 0.74. Database updated to Ensembl Release 104 and STRING v11. We now recommends the use of background genes in enrichment analysis. V.0.74 is much faster with even large set of background genes.</p>
+              <h5>6/6/2021: V0.66 Adjusted interface. </h5>
+              <h5>6/2/2021: V0.66 add customized background genes.</h5>
+              <h5>5/23/2021: V0.65 Database update to Ensembl 103 and STRING-db v11.</h5>
+              <h5>11/3/2019: V 0.61 Improved visualization based on suggestions from reviewers. Interactive networks.</h5>
+              <h5>5/20/2019: V0.60 Upgraded to Ensembl Biomart 96. Add annotation from STRING-db v10</h5>
+              <h5>3/29/2019: V0.51 Update annotation to Ensembl release 95. Interface change. Demo gene lists. Error messages.</h5>
+              <h5>9/10/2018: V0.5 Upgraded to Ensembl Biomart 92</h5>
+              <h5>4/30/2018: V0.42 changed figure configurations for tree.</h5>
+              <h5>4/27/2018: V0.41 Change to ggplot2, add grid and gridExtra packages</h5>
+              <h5>4/24/2018: V0.4 Add STRING API, KEGG diagram, tree display and network.</h5>
+            </div>
+          </div>
+        </div>
+        <div class="modal sbs-modal fade" id="ModalExamplePPI" tabindex="-1" data-sbs-trigger="ModalPPI">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                  <span>&times;</span>
+                </button>
+                <h4 class="modal-title">Protein-protein interaction networks </h4>
+              </div>
+              <div class="modal-body">
+                <h5>By sending your genes to the STRING website,
+			shinyGO is retrieving a sub-network, calculating PPI enrichment,
+		  and generating custom URLs to the STRING website containing your genes. This can take 5 minutes. Patience will pay off! </h5>
+                <div class="form-group shiny-input-container">
+                  <label class="control-label" id="nGenesPPI-label" for="nGenesPPI">
+                    <h5>Genes to include:</h5>
+                  </label>
+                  <input class="js-range-slider" id="nGenesPPI" data-skin="shiny" data-min="0" data-max="400" data-from="20" data-step="10" data-grid="true" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+                </div>
+                <div class="shiny-plot-output html-fill-item" id="stringDB_network1" style="width:100%;height:400px;"></div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal sbs-modal fade" id="InteractiveNetwork" tabindex="-1" data-sbs-trigger="GONetwork">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                  <span>&times;</span>
+                </button>
+                <h4 class="modal-title">Interactive enrichment networks </h4>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-sm-2">
+                    <button id="layoutButtonStatic" type="button" class="btn btn-default action-button">Change layout</button>
+                  </div>
+                  <div class="col-sm-2">
+                    <a id="enrichmentNetworkPlotDownload" class="btn btn-default shiny-download-link disabled" href="" target="_blank" download aria-disabled="true" tabindex="-1">
+                      <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
+                      Download
+                    </a>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group shiny-input-container">
+                      <div class="checkbox">
+                        <label>
+                          <input id="wrapTextNetworkStatic" type="checkbox" class="shiny-input-checkbox"/>
+                          <span>Wrap text</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="shiny-plot-output html-fill-item" id="enrichmentNetworkPlot" style="width:100%;height:400px;"></div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal sbs-modal fade" id="BackgroundGenes" tabindex="-1" data-sbs-trigger="backgroundGenes">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                  <span>&times;</span>
+                </button>
+                <h4 class="modal-title">Customized background genes (recommended)</h4>
+              </div>
+              <div class="modal-body">
+                <textarea id="input_text_b" placeholder="&#10;Paste all genes from which the gene list is derived. These are all&#10;genes whose expression or other activity that you measured.&#10;This could be all the genes on a DNA microarray or all the genes&#10;detected by a proteomics experiment.&#10;&#10;By default, we compare your gene list with a background of all&#10;protein-coding genes in the genome. When your genes are not selected&#10;from genome-wide data, customized background genes might yield more&#10;accurate results for enrichment analysis. For gene lists derived from&#10;a typical RNA-seq dataset, many  use the subset of genes with detectable&#10;expression, typically the genes passed a minimum filter.&#10;We can also customize background genes to overcome bias in selection.&#10;Currently only less than 30,000 genes are accepted." rows="20"></textarea>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal sbs-modal fade" id="geneIDexamples" tabindex="-1" data-sbs-trigger="MGeneIDexamples">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                  <span>&times;</span>
+                </button>
+                <h4 class="modal-title">What the gene IDs in our database look like?</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group shiny-input-container">
+                  <label class="control-label" id="userSpecieIDexample-label" for="userSpecieIDexample">Select or search for species</label>
+                  <div>
+                    <select class="shiny-input-select form-control" id="userSpecieIDexample"></select>
+                    <script type="application/json" data-for="userSpecieIDexample">{"plugins":["selectize-plugin-a11y"]}</script>
+                  </div>
+                </div>
+                <div id="showGeneIDs4Species" class="shiny-html-output shiny-table-output"></div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal sbs-modal fade" id="genomePlotStaticButton" tabindex="-1" data-sbs-trigger="gPlotstatic">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                  <span>&times;</span>
+                </button>
+                <h4 class="modal-title">Static genome plot</h4>
+              </div>
+              <div class="modal-body">
+                <h5>Your genes are marked in each of the chromosomes.
+                Note that the scale for each chromosomes are different.</h5>
+                <div class="shiny-plot-output html-fill-item" id="genomePlot" style="width:100%;height:400px;"></div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+<script src='/3013f27315617e3e2faa6c351f89eb787f579102/js/shiny.iframe.js'></script>

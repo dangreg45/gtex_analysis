@@ -1,0 +1,102 @@
+---
+title: "DESeq2 gene lists"
+author: "Daniel Gregory"
+format: html
+editor: visual
+---
+
+Gene analysis and LFC cutoff selection & ShinyGO output.
+
+# Settings
+
+```{r}
+input_file <- "data/processed/deseq2_output_Colon_Sigmoid_vs_Whole_Blood.rds"
+
+bands <- list(c(1.5, 4)) # |log2FC| ranges to export, each c(min, max). Inf = no upper limit
+base_mean_min <- 100 # mean normalized count across all samples must be at least this. 0 = off
+
+out_dir <- "results/shinygo/input"
+```
+
+```{r}
+inp <- readRDS(input_file)
+res <- inp$res
+s <- inp$settings
+
+names(bands) <- sapply(bands, function(b) paste0("lfc", b[1], "-", b[2]))
+```
+
+# Bands
+
+```{r}
+sig <- !is.na(res$padj) & res$padj < s$alpha
+expressed <- res$baseMean >= base_mean_min
+
+hist(res$log2FoldChange[sig], breaks = 100, main = NULL, xlab = paste("Log2 FC", s$comparison))
+abline(v = c(-unlist(bands), unlist(bands)), col = "red")
+
+# Significant genes in each band, before and after the base mean filter
+sapply(bands, function(b) {
+  in_band <- sig & abs(res$log2FoldChange) > b[1] & abs(res$log2FoldChange) < b[2]
+  c(in_band = sum(in_band), expressed = sum(in_band & expressed))
+})
+```
+
+# Reference gene sets
+
+- Housekeeping: [HRT Atlas, Hounkpe et al. 2021](https://pmc.ncbi.nlm.nih.gov/articles/PMC7778946/)
+- Mitochondrial: [MitoCarta3.0](https://www.broadinstitute.org/mitocarta/mitocarta30-inventory-mammalian-mitochondrial-proteins-and-pathways)
+- Autophagy: [Bordi et al. 2021](https://pmc.ncbi.nlm.nih.gov/articles/PMC8563709/).
+- Autophagy induction: Also included in Bordi. Only 6 genes.
+- Brain enriched: [Human Protein Atlas](https://www.proteinatlas.org/humanproteome/tissue/tissue+specific)
+- Metabolism: [Reactome](https://reactome.org/content/detail/R-HSA-1430728)
+
+```{r}
+#| warning: false
+#| message: false
+library(readxl)
+hk <- unique(read.csv2("data/raw/Housekeeping_GenesHuman.csv")$Gene.name)
+mito <- read_excel("data/raw/Human.MitoCarta3.0.xls", sheet = "A Human MitoCarta3.0")$Symbol
+f <- "data/raw/autophagy_Bordi2021_MOESM1.xlsx"
+autophagy <- unlist(lapply(excel_sheets(f), function(sh) read_excel(f, sheet = sh, col_names = FALSE)[[1]])) # first column of every sheet; non-gene rows won't match a symbol
+autophagy_induction <- c("ATG14", "ATG7", "NBR1", "ULK1", "ULK2", "WDR45")
+# brain <- read.delim("data/raw/HPA_brain_tissue_enriched.tsv")$Gene
+reactome <- strsplit(readLines("data/raw/ReactomePathways.gmt"), "\t") # one line per pathway: name, ID, then its genes
+names(reactome) <- sapply(reactome, `[`, 1)
+metabolism <- reactome[["Metabolism"]][-(1:2)]
+
+sets <- list(All = res$symbol, Housekeeping = hk, Mitochondrial = mito, Autophagy = autophagy, Autophagy_induction = autophagy_induction, Metabolism = metabolism) # removed Brain = brain,
+lfc <- lapply(sets, function(g) abs(res$log2FoldChange[res$symbol %in% g]))
+
+par(mar = c(9, 4, 3, 1)) # room for the set names and the title
+boxplot(lfc, outline = FALSE, ylab = "|Log2 FC|", main = s$comparison, las = 2, cex.axis = 0.8) # las = 2 turns the names sideways so none are dropped
+abline(h = unlist(bands), col = "red")
+
+# Share of each set inside each band
+round(sapply(lfc, function(x) c(n = length(x), median = median(x), sapply(bands, function(b) mean(x > b[1] & x < b[2])))), 2)
+```
+
+# Gene lists for ShinyGO
+
+For each band: genes higher in the target, genes higher in the reference, and both directions together ("both" = -max to +max). Plus the background (every tested gene that passes the base mean filter). Ensembl IDs with the version suffix stripped ("ENSG00000302013.1" -\> "ENSG00000302013"), one per line, ready to paste into ShinyGO.
+
+```{r}
+strip_version <- function(x) unique(sub("\\..*$", "", x))
+
+bm_tag <- paste0("bm", base_mean_min)
+
+gene_lists <- list()
+gene_lists[[paste0(bm_tag, "_background")]] <- strip_version(res$gene_id[expressed])
+for (b in names(bands)) {
+  in_band <- sig & expressed & abs(res$log2FoldChange) > bands[[b]][1] & abs(res$log2FoldChange) < bands[[b]][2]
+  gene_lists[[paste0(b, "_", bm_tag, "_up_in_", s$target)]] <- strip_version(res$gene_id[in_band & res$log2FoldChange > 0]) # higher in target
+  gene_lists[[paste0(b, "_", bm_tag, "_up_in_", s$ref)]] <- strip_version(res$gene_id[in_band & res$log2FoldChange < 0]) # higher in reference
+  gene_lists[[paste0(b, "_", bm_tag, "_both")]] <- strip_version(res$gene_id[in_band]) # either direction
+}
+
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+for (n in names(gene_lists)) {
+  writeLines(gene_lists[[n]], file.path(out_dir, paste0("shinygo_", s$file_tag, "_", n, ".txt")))
+}
+lengths(gene_lists)
+```

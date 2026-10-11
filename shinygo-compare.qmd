@@ -1,0 +1,78 @@
+---
+title: "ShinyGO comparison"
+author: "Daniel Gregory"
+format: html
+editor: visual
+---
+
+Compare the ShinyGO pathway results of two runs, e.g. male vs female or under 60 vs over 60. Each run was analysed separately from the start (`subgroup` setting in `deseq2-analysis.qmd`).
+
+# Settings
+
+```{r}
+out_dir <- "results/shinygo/output"
+group_a <- "Brain_Cortex_vs_Whole_Blood_over60" # goes on the x-axis. Comparison + subgroup, as in the file names
+group_b <- "Brain_Cortex_vs_Whole_Blood_under60" # goes on the y-axis
+gene_list <- "lfc0-1.5_bm100_both" # band + direction, as in the file name
+database <- "GOBP" # KEGG, GOBP, GOCC, GOMF
+
+fdr_cutoff <- 0.05
+n_show <- 20 # pathways to list in each table
+```
+
+# Load both results
+
+A pathway missing from one file was not close to significant in that run.
+
+```{r}
+read_go <- function(group) {
+  go <- read.csv(file.path(out_dir, paste0("shinygo_", group, "_", gene_list, "_", database, "_all.csv")), check.names = FALSE)
+  go$Pathway <- trimws(sub("^(Path:hsa[0-9]+|GO:[0-9]+) ", "", go$Pathway)) # drop the ID in front of the name
+  data.frame(Pathway = go$Pathway, fdr = go$`Enrichment FDR`, fold = go$`Fold Enrichment`, n = go$nGenes)
+}
+
+both <- merge(read_go(group_a), read_go(group_b), by = "Pathway", all = TRUE, suffixes = c("_a", "_b"))
+both$sig_a <- !is.na(both$fdr_a) & both$fdr_a < fdr_cutoff
+both$sig_b <- !is.na(both$fdr_b) & both$fdr_b < fdr_cutoff
+both <- both[both$sig_a | both$sig_b, ] # significant in at least one
+```
+
+# How many pathways are shared
+
+```{r}
+c(both = sum(both$sig_a & both$sig_b), only_x_axis_group = sum(both$sig_a & !both$sig_b), only_y_axis_group = sum(!both$sig_a & both$sig_b))
+```
+
+# Fold enrichment, x-axis group vs y-axis group
+
+Each point is a pathway significant in at least one group. Points on the line are equally enriched in both.
+
+Open circles along the left or bottom edge are pathways that are missing from the other group's file (i.e. not significant in that group).
+
+```{r}
+col <- ifelse(both$sig_a & both$sig_b, "black", ifelse(both$sig_a, "red", "blue"))
+missing <- is.na(both$fold_a) | is.na(both$fold_b)
+edge <- min(c(both$fold_a, both$fold_b), na.rm = TRUE) - 0.1 # where the missing ones are drawn
+x <- ifelse(is.na(both$fold_a), edge, both$fold_a)
+y <- ifelse(is.na(both$fold_b), edge, both$fold_b)
+
+plot(x, y, pch = ifelse(missing, 1, 19), cex = 0.6, col = col, xlab = paste("Fold enrichment,", group_a), ylab = paste("Fold enrichment,", group_b), main = paste(gene_list, database))
+abline(0, 1)
+legend("bottomright", bty = "n", pch = c(19, 19, 19, 1), col = c("black", "red", "blue", "grey40"),
+       legend = c(paste0("both (", sum(both$sig_a & both$sig_b), ")"), paste0("only x-axis group (", sum(both$sig_a & !both$sig_b), ")"),
+                  paste0("only y-axis group (", sum(!both$sig_a & both$sig_b), ")"), paste0("not found in the other group (", sum(missing), ")")))
+```
+
+# Pathways significant in only one group
+
+```{r}
+show <- function(x, by) head(x[order(x[[by]]), c("Pathway", "fdr_a", "fold_a", "fdr_b", "fold_b")], n_show)
+show(both[both$sig_a & !both$sig_b, ], "fdr_a") # only the x-axis group
+show(both[!both$sig_a & both$sig_b, ], "fdr_b") # only the y-axis group
+```
+
+# Pathways significant in both
+
+```{r}
+show(both[both$sig_a & both$sig_b, ], "fdr_a")
+```

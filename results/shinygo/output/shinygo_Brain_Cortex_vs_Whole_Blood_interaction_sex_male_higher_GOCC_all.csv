@@ -1,0 +1,7 @@
+"Enrichment FDR","nGenes","Pathway Genes","Fold Enrichment","Pathway","URL","Genes"
+0.0118234071452704,5,118,12.4765150119727,"GO:0043679 Axon terminus "," https://amigo.geneontology.org/amigo/term/GO:0043679","CALB2 SLC8A2 FLRT3 GRIK2 SLC1A1"
+0.0136137162339144,5,135,10.4755644911847,"GO:0044306 Neuron projection terminus "," https://amigo.geneontology.org/amigo/term/GO:0044306","CALB2 SLC8A2 FLRT3 GRIK2 SLC1A1"
+0.176971751184524,2,26,24.6757741347905,"GO:0032982 Myosin filament "," https://amigo.geneontology.org/amigo/term/GO:0032982","MYH7 MYBPC3"
+0.176971751184524,2,19,24.6757741347905,"GO:0097440 Apical dendrite "," https://amigo.geneontology.org/amigo/term/GO:0097440","SEZ6 SLC1A1"
+0.189422904717006,8,677,3.11148115184749,"GO:0098793 Presynapse "," https://amigo.geneontology.org/amigo/term/GO:0098793","RIMS1 GRIK2 CALB2 SLC8A2 ABCC8 VAPB FLRT3 SLC1A1"
+0.199758747935017,5,292,4.51386112221778,"GO:0150034 Distal axon "," https://amigo.geneontology.org/amigo/term/GO:0150034","CALB2 SLC8A2 FLRT3 GRIK2 SLC1A1"

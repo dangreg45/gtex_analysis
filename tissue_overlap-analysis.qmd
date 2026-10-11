@@ -15,13 +15,13 @@ Select tissues and files for analysis.
 
 ```{r}
 tissue_a <- "Whole Blood" # tissue names from the SMTSD column
-tissue_b <- "Brain - Cortex" # "Colon - Sigmoid"
+tissue_b <- "Colon - Sigmoid" # "Colon - Sigmoid" or "Brain - Cortex"
 
 file_a <- "data/raw/gene_reads_adult_gtex_v11_whole_blood.gct"
-file_b <- "data/raw/gene_reads_adult_gtex_v11_brain_cortex.gct" # "data/raw/gene_reads_adult_gtex_v11_colon_sigmoid.gct"
+file_b <- "data/raw/gene_reads_adult_gtex_v11_colon_sigmoid.gct" # "data/raw/gene_reads_adult_gtex_v11_colon_sigmoid.gct"
 
 # Save under data folder to avoid uploading to git
-output_file <- "data/processed/deseq_input_blood_vs_cortex.rds" # "data/processed/deseq_input_blood_vs_sigmoid.rds"
+output_file <- "data/processed/deseq_input_blood_vs_sigmoid.rds" # "data/processed/deseq_input_blood_vs_sigmoid.rds"
 ```
 
 # Sample & donor metadata

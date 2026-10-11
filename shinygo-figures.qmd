@@ -1,0 +1,97 @@
+---
+title: "ShinyGO figures"
+author: "Daniel Gregory"
+format: html
+editor: visual
+---
+
+Plots of the ShinyGO results. Input is the "Results on all Pathways" files saved by `shinygo_download.py`.
+
+# Settings
+
+```{r}
+out_dir <- "results/shinygo/output"
+comparison <- "Brain_Cortex_vs_Whole_Blood"
+gene_list <- "lfc0-1.5_bm100_both" # band + direction, as in the file name
+database <- "GOBP" # KEGG, GOBP, GOCC, GOMF
+
+fdr_cutoff <- 0.05
+n_top <- 20 # pathways to plot
+keep <- NULL # only plot pathways matching this, e.g. "mitochond|autophag|lysosom". NULL = all
+label_width <- 80 # pathway names longer than this many characters wrap onto a second line
+text_size <- 14 # size of all text on the plot
+tag_min <- 0.3 # a pathway gets a reference set's tag when at least this share of its genes are in the set
+```
+
+# Reference gene sets
+
+```{r}
+#| warning: false
+#| message: false
+library(readxl)
+f <- "data/raw/autophagy_Bordi2021_MOESM1.xlsx"
+refs <- list(
+  HK = unique(read.csv2("data/raw/Housekeeping_GenesHuman.csv")$Gene.name),
+  Mito = read_excel("data/raw/Human.MitoCarta3.0.xls", sheet = "A Human MitoCarta3.0")$Symbol,
+  Auto = unlist(lapply(excel_sheets(f), function(sh) read_excel(f, sheet = sh, col_names = FALSE)[[1]])),
+  Brain = read.delim("data/raw/HPA_brain_tissue_enriched.tsv")$Gene
+)
+
+# Reactome: children of Metabolism
+reactome <- strsplit(readLines("data/raw/ReactomePathways.gmt"), "\t") # one line per pathway: name, ID, then its genes
+names(reactome) <- sapply(reactome, `[`, 2) # label each pathway by its ID
+relation <- read.delim("data/raw/ReactomePathwaysRelation.txt", header = FALSE, col.names = c("parent", "child"))
+children <- relation$child[relation$parent == "R-HSA-1430728"] # R-HSA-1430728 = Metabolism
+# refs[["Metab"]] <- reactome[["R-HSA-1430728"]][-(1:2)] # Metabolism as a whole
+
+# Short names for the tags
+short <- c("Metabolism of lipids" = "Lipid",
+           "Metabolism of amino acids and derivatives" = "Amino acid",
+           "Metabolism of carbohydrates and carbohydrate derivatives" = "Carb",
+           "Aerobic respiration and respiratory electron transport" = "Respiration",
+           "Biological oxidations" = "Bio oxidation",
+           "Metabolism of vitamins and cofactors" = "Vitamin",
+           "Integration of energy metabolism" = "Energy integration",
+           "Metabolism of nucleotides" = "Nucleotide",
+           "Inositol phosphate metabolism" = "Inositol",
+           "Metabolism of porphyrins" = "Porphyrin",
+           "Metabolism of nitric oxide: NOS3 activation and regulation" = "Nitric oxide",
+           "Mitochondrial iron-sulfur cluster biogenesis" = "Fe-S mito",
+           "Cytosolic iron-sulfur cluster assembly" = "Fe-S cyto",
+           "Reversible hydration of carbon dioxide" = "CO2 hydration",
+           "Pyrophosphate hydrolysis" = "Pyrophosphate")
+for (id in children) {
+  name <- reactome[[id]][1]
+  refs[[if (name %in% names(short)) short[[name]] else name]] <- reactome[[id]][-(1:2)]
+}
+lengths(refs) # genes in each set
+```
+
+# Lollipop plot
+
+```{r}
+#| fig-width: 10
+#| fig-height: 6
+library(ggplot2)
+
+go <- read.csv(file.path(out_dir, paste0("shinygo_", comparison, "_", gene_list, "_", database, "_all.csv")), check.names = FALSE)
+go$Pathway <- trimws(sub("^(Path:hsa[0-9]+|GO:[0-9]+) ", "", go$Pathway)) # drop the ID in front of the name
+go <- go[go$`Enrichment FDR` < fdr_cutoff, ]
+if (!is.null(keep)) go <- go[grepl(keep, go$Pathway, ignore.case = TRUE), ]
+top <- head(go[order(go$`Enrichment FDR`), ], n_top) # most significant pathways
+
+# Share of each pathway's genes (the ones from our list) that are in each reference set
+genes <- strsplit(trimws(top$Genes), " +")
+share <- do.call(cbind, lapply(refs, function(r) sapply(genes, function(g) mean(g %in% r))))
+tags <- apply(share >= tag_min, 1, function(x) paste(colnames(share)[x], collapse = ", "))
+data.frame(Pathway = top$Pathway, round(share[, colSums(share >= tag_min) > 0, drop = FALSE], 2)) # only sets that tag something
+top$Pathway <- ifelse(tags == "", top$Pathway, paste0("[", tags, "] ", top$Pathway))
+
+ggplot(top, aes(x = `Fold Enrichment`, y = reorder(Pathway, `Fold Enrichment`))) +
+  geom_segment(aes(xend = 0, yend = Pathway, color = -log10(`Enrichment FDR`)), linewidth = 1) +
+  geom_point(aes(size = nGenes, color = -log10(`Enrichment FDR`))) +
+  scale_color_gradient(low = "blue", high = "red") +
+  scale_y_discrete(labels = function(x) sapply(x, function(s) paste(strwrap(s, label_width), collapse = "\n"))) + # long names go onto two lines
+  labs(x = "Fold Enrichment", y = NULL, size = "N. of Genes", color = "-log10(FDR)", title = paste(comparison, gene_list, database)) +
+  theme(text = element_text(size = text_size), plot.title.position = "plot") # title starts at the left edge so it isn't cut off
+```

@@ -16,12 +16,27 @@ Input is from the tissue_overlap-analysis.qmd at present.
 Program is input-blind outside of these settings.
 
 ```{r}
-input_file <- "data/processed/deseq_input_blood_vs_cortex.rds" # "data/processed/deseq_input_blood_vs_sigmoid.rds"
+input_file <- "data/processed/deseq_input_blood_vs_sigmoid.rds" # "data/processed/deseq_input_blood_vs_sigmoid.rds" or vs_cortex
 
 sample_col <- "SAMPID" # coldata column holding sample IDs (= count matrix column names)
 group_col <- "tissue" # coldata column that defines the comparison
-target_level <- "Brain - Cortex" # upregulated "Colon - Sigmoid"
+target_level <- "Colon - Sigmoid" # upregulated "Colon - Sigmoid" or "Brain - Cortex"
 ref_level <- "Whole Blood" # downregulated = reference level
+
+# Which donors to use. NULL = everyone, or a name from the subgroups list ("male", "under60", ...)
+subgroup <- NULL
+subgroups <- list( # name = list(coldata column, values to keep)
+  male = list("SEX", 1),
+  female = list("SEX", 2),
+  under60 = list("AGE", c("20-29", "30-39", "40-49", "50-59")),
+  over60 = list("AGE", c("60-69", "70-79")),
+  under50 = list("AGE", c("20-29", "30-39", "40-49")),
+  age50s = list("AGE", "50-59"),
+  under40 = list("AGE", c("20-29", "30-39")), # too few brain donors (12); colon only
+  over40 = list("AGE", c("40-49", "50-59", "60-69", "70-79")),
+  age20s = list("AGE", "20-29"), # youngest and oldest decades: small groups of similar size
+  age70s = list("AGE", "70-79")
+)
 
 block_col <- NULL # "SUBJID" = paired design. NULL = unpaired comparison
 covariates <- NULL # extra design terms - unpaired only. c("SEX", "AGE", "DTHHRDY")
@@ -46,6 +61,13 @@ ref <- clean(ref_level)
 comparison <- paste(target_level, "vs", ref_level)
 file_tag <- paste0(target, "_vs_", ref)
 
+# A subgroup is added to the plot labels and to every output file name
+if (!is.null(subgroup)) {
+  stopifnot(subgroup %in% names(subgroups))
+  comparison <- paste0(comparison, " (", subgroup, ")")
+  file_tag <- paste0(file_tag, "_", subgroup)
+}
+
 # group goes last so results()/resultsNames() default to the comparison of interest
 design_formula <- reformulate(c(block_col, covariates, "group"))
 design_formula
@@ -69,6 +91,11 @@ genes <- inp$genes # Name = Ensembl ID, Description = gene symbol
 # Keep only the two levels being compared
 coldata <- inp$coldata
 coldata <- coldata[coldata[[group_col]] %in% c(target_level, ref_level), ]
+
+# Keep only the chosen subgroup of donors
+if (!is.null(subgroup)) {
+  coldata <- coldata[coldata[[subgroups[[subgroup]][[1]]]] %in% subgroups[[subgroup]][[2]], ]
+}
 
 # Build the design columns - reference level first
 coldata$group <- factor(clean(coldata[[group_col]]), levels = c(ref, target))
@@ -282,32 +309,10 @@ DESeq2::plotMA(res_shrunk, alpha = alpha, main = paste("Shrunken (", shrink_type
 
 ```{r}
 dir.create(file.path(out_dir, "deseq2"), recursive = TRUE, showWarnings = FALSE)
-dir.create(file.path(out_dir, "shinygo", "input"), recursive = TRUE, showWarnings = FALSE)
 out <- as.data.frame(res_ord)
 out$log2FoldChange_shrunk <- res_shrunk[rownames(out), "log2FoldChange"]
 out <- cbind(gene_id = rownames(out), out)
 write.csv(out, file.path(out_dir, "deseq2", paste0("deseq2_", file_tag, ".csv")), row.names = FALSE)
-```
-
-## Gene lists for ShinyGO
-
-Directional hit lists plus the background (every gene that was tested). Ensembl IDs with the version suffix stripped ("ENSG00000302013.1" -\> "ENSG00000302013"), one per line, ready to paste into ShinyGO.
-
-```{r}
-strip_version <- function(x) unique(sub("\\..*$", "", x))
-sig <- !is.na(res$padj) & res$padj < alpha
-
-gene_lists <- list(
-  up = strip_version(rownames(res)[sig & res$log2FoldChange > lfc_cutoff]), # higher in target
-  down = strip_version(rownames(res)[sig & res$log2FoldChange < -lfc_cutoff]), # higher in reference
-  background = strip_version(rownames(res))
-)
-names(gene_lists) <- c(paste0("up_in_", target), paste0("up_in_", ref), "background")
-
-for (n in names(gene_lists)) {
-  writeLines(gene_lists[[n]], file.path(out_dir, "shinygo", "input", paste0("shinygo_", file_tag, "_", n, ".txt")))
-}
-lengths(gene_lists)
 ```
 
 ## Save output for figures
@@ -325,10 +330,10 @@ saveRDS(list(res = res_out,
         file.path("data", "processed", paste0("deseq2_output_", file_tag, ".rds")))
 ```
 
-Fitted DESeq2 object.
+Fitted DESeq2 object. Only saved for the all-donor run (it is large and only `deseq2-sex_check.qmd` uses it).
 
 ```{r}
-saveRDS(dds, file.path("data", "processed", paste0("deseq2_dds_", file_tag, ".rds")))
+if (is.null(subgroup)) saveRDS(dds, file.path("data", "processed", paste0("deseq2_dds_", file_tag, ".rds")))
 ```
 
 # Transformations for clustering and PCA
@@ -358,7 +363,8 @@ plot(hc, labels = FALSE, xlab = NULL, sub = NULL)
 PCA.
 
 ```{r}
-plotPCA(vsd, intgroup = "group")
+# Same colors as the volcano plot: blue = reference tissue, red = target tissue
+plotPCA(vsd, intgroup = "group") + ggplot2::scale_color_manual(values = setNames(c("blue", "red"), c(ref, target)))
 ```
 
 # Session information
