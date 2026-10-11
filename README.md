@@ -30,6 +30,7 @@ deseq2-sex_check:
 - Runs covariate and interactions effects for sex
 
 shinygo_download.py:
+- Created this with Claude. I've verified the results are consistent with manual trials.
 - Automated pipeline to run staged DESEq results through ShinyGO using GOBP, GOMF, GOCC, and Kegg
 
 shinygo-compare.qmd:
