@@ -33,10 +33,49 @@ res_cov <- results(DESeq(dds_sex, quiet = TRUE), contrast = c("group", target, r
 hits <- res$padj < alpha & abs(res$log2FoldChange) > lfc_cutoff
 hits_cov <- res_cov$padj < alpha & abs(res_cov$log2FoldChange) > lfc_cutoff
 c(without_sex = sum(hits, na.rm = TRUE), with_sex = sum(hits_cov, na.rm = TRUE), in_both = sum(hits & hits_cov, na.rm = TRUE))
+```
 
-# 2. Sex x tissue interaction
-design(dds_sex) <- ~ SEX + group + SEX:group
-res_int <- results(DESeq(dds_sex, quiet = TRUE), name = paste0("SEXFemale.group", target))
-sum(res_int$padj < alpha, na.rm = TRUE) # genes where the tissue difference depends on sex
-head(data.frame(symbol = res$symbol, lfc = res_int$log2FoldChange, padj = res_int$padj)[order(res_int$padj), ], 10)
+Genes that pass in only one of the two models. Small padj or LFC changes near the cutoffs are expected.
+
+```{r}
+switched <- which(xor(hits %in% TRUE, hits_cov %in% TRUE))
+switched_tab <- data.frame(symbol = res$symbol[switched],
+  passes_in = ifelse(hits[switched] %in% TRUE, "without sex", "with sex"),
+  lfc = round(res$log2FoldChange[switched], 2), lfc_with_sex = round(res_cov$log2FoldChange[switched], 2),
+  padj = signif(res$padj[switched], 2), padj_with_sex = signif(res_cov$padj[switched], 2))
+switched_tab
+```
+
+# Sex x tissue interaction
+
+Asks, gene by gene, if the cortex vs. blood difference is different in women and men. Read from the saved interaction results (model: \~ sex + age + group + sex:group + age:group), so nothing is refit here. sex_lfc \> 0 = the cortex vs. blood log2 FC is larger in women.
+
+Chromosomes come from the NCBI annotation (matched by Ensembl ID). Genes it doesn't cover (mostly non-coding) are "Unknown".
+
+```{r}
+int <- read.csv("results/deseq2/deseq2_Brain_Cortex_vs_Whole_Blood_interaction.csv")
+annot <- read.delim("data/raw/Human.GRCh38.p13.annot.tsv.gz", quote = "")
+annot <- annot[annot$EnsemblGeneID != "" & !duplicated(annot$EnsemblGeneID), ]
+chr <- annot$ChrAcc[match(sub("\\..*", "", int$gene_id), annot$EnsemblGeneID)]
+int$chrom <- ifelse(is.na(chr), "Unknown", ifelse(grepl("NC_000023|NC_000024", chr), "X/Y", "Other"))
+
+int_hits <- int[int$sex_padj < alpha & !is.na(int$sex_padj), ]
+int_hits <- int_hits[order(int_hits$sex_padj), ]
+```
+
+Slide summary: how many genes have a sex-dependent tissue difference, and how many of those are over 2-fold (\|sex_lfc\| \> 1).
+
+```{r}
+slide_tab <- data.frame(chromosome = c("X/Y", "Other", "Unknown", "Total"),
+  genes = c(sum(int_hits$chrom == "X/Y"), sum(int_hits$chrom == "Other"), sum(int_hits$chrom == "Unknown"), nrow(int_hits)),
+  over_2_fold = c(sum(abs(int_hits$sex_lfc[int_hits$chrom == "X/Y"]) > 1), sum(abs(int_hits$sex_lfc[int_hits$chrom == "Other"]) > 1),
+    sum(abs(int_hits$sex_lfc[int_hits$chrom == "Unknown"]) > 1), sum(abs(int_hits$sex_lfc) > 1)))
+slide_tab
+c(genes_tested = sum(!is.na(int$sex_padj)), percent_hit = round(100 * nrow(int_hits) / sum(!is.na(int$sex_padj)), 1))
+
+# top non-sex-chromosome genes, by size of the sex difference
+top_other <- int_hits[int_hits$chrom == "Other" & int_hits$baseMean >= 100, ]
+head(top_other[order(-abs(top_other$sex_lfc)), c("symbol", "tissue_lfc", "sex_lfc", "sex_padj", "baseMean")], 10)
+
+write.csv(int_hits, "results/deseq2/sex_interaction_hits.csv", row.names = FALSE)
 ```

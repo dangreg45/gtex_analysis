@@ -1,0 +1,7 @@
+"Enrichment FDR","nGenes","Pathway Genes","Fold Enrichment","Pathway","URL","Genes"
+0.0505618208515497,9,298,4.40416651803232,"Path:hsa04060 Cytokine-cytokine receptor interaction","https://www.genome.jp/kegg-bin/show_pathway?hsa04060 ","CSF3 GDF10 CXCL2 IL15RA TNFRSF12A RELL1 TNFRSF6B IL1RL1 OSMR"
+0.0992269496544409,4,41,7.30263508118179,"Path:hsa04216 Ferroptosis","https://www.genome.jp/kegg-bin/show_pathway?hsa04216 ","CP SLC39A14 GCLM ACSL5"
+0.0992269496544409,5,87,6.08552923431816,"Path:hsa04610 Complement and coagulation cascades","https://www.genome.jp/kegg-bin/show_pathway?hsa04610 ","C4A F3 C4A C4B F2RL3"
+0.0992269496544409,7,144,4.05207190480209,"Path:hsa04936 Alcoholic liver disease","https://www.genome.jp/kegg-bin/show_pathway?hsa04936 ","C4A LPIN1 CXCL2 PRKAB1 C4A C4B RIPK1"
+0.0992269496544409,8,201,3.99723183391004,"Path:hsa05202 Transcriptional misregulation in cancer","https://www.genome.jp/kegg-bin/show_pathway?hsa05202 ","GADD45A ERG JMJD1C IGFBP3 SMAD1 AFF1 ZBTB16 CCNT1"
+0.148104470706649,5,75,4.84358449262058,"Path:hsa04115 p53 signaling pathway","https://www.genome.jp/kegg-bin/show_pathway?hsa04115 ","GADD45A SESN1 IGFBP3 TP53AIP1 SESN2"

@@ -1,0 +1,6 @@
+"Enrichment FDR","nGenes","Pathway Genes","Fold Enrichment","Pathway","URL","Genes"
+0.00887008100366023,5,83,10.6506211180124,"Path:hsa04146 Peroxisome","https://www.genome.jp/kegg-bin/show_pathway?hsa04146 ","PXMP4 EPHX2 NUDT7 PIPOX PEX10"
+0.105327493852875,17,1574,2.10360815442901,"Path:hsa01100 Metabolic pathways","https://www.genome.jp/kegg-bin/show_pathway?hsa01100 ","COX15 DHFR2 EPHX2 DOLK GCDH PYCR2 IVD PIPOX PDE6D FGGY ACOT1 SUOX BTD HSD17B8 HKDC1 G6PC3 ACY1"
+0.108851214382576,2,26,21.3012422360248,"Path:hsa04977 Vitamin digestion and absorption","https://www.genome.jp/kegg-bin/show_pathway?hsa04977 ","MMACHC BTD"
+0.12042516190681,2,32,17.542199488491,"Path:hsa00052 Galactose metabolism","https://www.genome.jp/kegg-bin/show_pathway?hsa00052 ","HKDC1 G6PC3"
+0.146195712191561,2,36,14.2008281573499,"Path:hsa00500 Starch and sucrose metabolism","https://www.genome.jp/kegg-bin/show_pathway?hsa00500 ","HKDC1 G6PC3"

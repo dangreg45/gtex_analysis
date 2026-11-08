@@ -45,3 +45,23 @@ tissue_overlap-analysis.qmd:
 - Imports subject and sample annotations
 - Analyze by phenotype/covariate for potential sampling bias
 - Produce data table outputs paired with tissue expression
+
+# PTSD Analysis
+
+This analysis uses PTSD RNAseq data to identify candidate blood test markers for predicting stress information. Note that deseq2-analysis.qmd from above is used for the differential expression stage.
+
+hpa_secreted.qmd:
+- Uses Human Protein Atlas v25.1 to identify which genes are secreted to the blood.
+
+ptsd_input:
+- Reads in NCBI dataset for the 2017 Kuan PTSD study. Uses the following files:
+  - Raw counts
+  - Gene annotation
+  - Sample matrix
+  
+blood_markers.qmd:
+- Filters DESeq results to only include the secreted to blood genes
+- Performs other misc. checks that do not directly affect the pipeline.
+
+markers_auc.qmd:
+- Calculates AUC for all of the differentially expressed candidate markers.

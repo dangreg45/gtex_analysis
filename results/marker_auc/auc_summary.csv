@@ -1,0 +1,5 @@
+"analysis","auc"
+"Single best marker (full data)",0.655
+"Panel, in-sample",0.733
+"Panel, cross-validated",0.664
+"Random panels, median",0.589

@@ -1,0 +1,73 @@
+# Intro
+
+Step 2 of candidate marker approach. Load [PTSD dataset](https://www.nature.com/articles/s41398-017-0050-1). [Counts are processing of raw reads by NCBI](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE97356). Only PTSD status is provided. A check is performed to verify all tissues are male, as the study claims. Original study accounted for cell type and demographics. This info is not included in the NCBI download.
+
+Output is structured to fit within the `deseq2-analysis.qmd` file built for GTEx.
+
+# Settings
+
+```{r}
+counts_file <- "data/raw/GSE97356_raw_counts_GRCh38.p13_NCBI.tsv.gz"
+annot_file <- "data/raw/Human.GRCh38.p13.annot.tsv.gz"
+matrix_file <- "data/raw/GSE97356_series_matrix" # Series Matrix File, unzipped
+
+out_file <- "data/processed/deseq_input_ptsd.rds"
+```
+
+# Import data
+
+Counts: one row per NCBI gene ID, one column per GEO sample.
+
+```{r}
+cts <- read.delim(counts_file, check.names = FALSE)
+counts <- as.matrix(cts[, -1])
+rownames(counts) <- cts$GeneID
+dim(counts)
+```
+
+Gene annotation. Same column names as the GTEx input (Name = row ID, Description = symbol), plus Ensembl IDs for matching HPA.
+
+```{r}
+annot <- read.delim(annot_file, quote = "")
+annot <- annot[match(rownames(counts), annot$GeneID), ]
+genes <- data.frame(Name = as.character(annot$GeneID), Description = annot$Symbol,
+                    Ensembl = annot$EnsemblGeneID, GeneType = annot$GeneType)
+head(genes, 3)
+```
+
+Sample table from the series matrix: GEO accession, title, and the two characteristics lines.
+
+```{r}
+sm <- readLines(matrix_file)
+field <- function(tag) {
+  x <- strsplit(sm[startsWith(sm, tag)], "\t")
+  lapply(x, function(l) gsub('"', "", l[-1]))
+}
+chars <- field("!Sample_characteristics_ch1") # raw values --> "ptsd: Never", "replicates: NvrRep1"
+
+coldata <- data.frame(SAMPID = field("!Sample_geo_accession")[[1]],
+                      title = field("!Sample_title")[[1]],
+                      ptsd = sub("ptsd: ", "", chars[[1]]),
+                      replicate = sub("replicates: ", "", chars[[2]]))
+stopifnot(identical(coldata$SAMPID, colnames(counts))) # same order as the counts
+table(coldata$ptsd)
+```
+
+# Sex check
+
+No sex in the sample table, so check expression. XIST is expressed in females and essentially absent in males.
+
+```{r}
+cpm <- t(t(counts) / colSums(counts)) * 1e6
+xist <- log2(cpm[match("XIST", genes$Description), ] + 1)
+summary(xist) # log2 CPM
+hist(xist, breaks = 30, xlab = "XIST (log2 CPM)", main = NULL)
+```
+
+Dataset is confirmed to be only male.
+
+# Save
+
+```{r}
+saveRDS(list(counts = counts, coldata = coldata, genes = genes), out_file)
+```

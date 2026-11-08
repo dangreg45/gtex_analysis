@@ -11,15 +11,18 @@ Plots of the ShinyGO results. Input is the "Results on all Pathways" files saved
 
 ```{r}
 out_dir <- "results/shinygo/output"
-comparison <- "Brain_Cortex_vs_Whole_Blood"
+comparison <- "Brain_Cortex_vs_Whole_Blood_under40"
 gene_list <- "lfc0-1.5_bm100_both" # band + direction, as in the file name
 database <- "GOBP" # KEGG, GOBP, GOCC, GOMF
 
 fdr_cutoff <- 0.05
-n_top <- 20 # pathways to plot
+n_top <- 10 # pathways to plot - generally = 20
 keep <- NULL # only plot pathways matching this, e.g. "mitochond|autophag|lysosom". NULL = all
 label_width <- 80 # pathway names longer than this many characters wrap onto a second line
-text_size <- 14 # size of all text on the plot
+text_size <- 14 # size of all text on the plot, in points at the saved size below
+fig_width <- 9 # inches. Smaller figure = text takes up more of it
+fig_height <- 1.2 + 0.45 * n_top # inches; shrinks with fewer pathways so the text doesn't stay small
+fig_dir <- "results/figures/shinygo"
 tag_min <- 0.3 # a pathway gets a reference set's tag when at least this share of its genes are in the set
 ```
 
@@ -87,11 +90,17 @@ tags <- apply(share >= tag_min, 1, function(x) paste(colnames(share)[x], collaps
 data.frame(Pathway = top$Pathway, round(share[, colSums(share >= tag_min) > 0, drop = FALSE], 2)) # only sets that tag something
 top$Pathway <- ifelse(tags == "", top$Pathway, paste0("[", tags, "] ", top$Pathway))
 
-ggplot(top, aes(x = `Fold Enrichment`, y = reorder(Pathway, `Fold Enrichment`))) +
+p <- ggplot(top, aes(x = `Fold Enrichment`, y = reorder(Pathway, `Fold Enrichment`))) +
   geom_segment(aes(xend = 0, yend = Pathway, color = -log10(`Enrichment FDR`)), linewidth = 1) +
   geom_point(aes(size = nGenes, color = -log10(`Enrichment FDR`))) +
   scale_color_gradient(low = "blue", high = "red") +
   scale_y_discrete(labels = function(x) sapply(x, function(s) paste(strwrap(s, label_width), collapse = "\n"))) + # long names go onto two lines
   labs(x = "Fold Enrichment", y = NULL, size = "N. of Genes", color = "-log10(FDR)", title = paste(comparison, gene_list, database)) +
-  theme(text = element_text(size = text_size), plot.title.position = "plot") # title starts at the left edge so it isn't cut off
+  theme_grey(base_size = text_size) +
+  theme(axis.text = element_text(size = text_size, color = "black"), plot.title.position = "plot") # axis text is 80% size by default; title starts at the left edge so it isn't cut off
+p
+
+# Saved at a fixed size, so text_size is the same in every file no matter the plot pane size
+dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
+ggsave(file.path(fig_dir, paste0("shinygo_", comparison, "_", gene_list, "_", database, "_top", n_top, ".png")), p, width = fig_width, height = fig_height, dpi = 300)
 ```

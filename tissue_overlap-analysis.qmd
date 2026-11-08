@@ -15,10 +15,10 @@ Select tissues and files for analysis.
 
 ```{r}
 tissue_a <- "Whole Blood" # tissue names from the SMTSD column
-tissue_b <- "Colon - Sigmoid" # "Colon - Sigmoid" or "Brain - Cortex"
+tissue_b <- "Brain - Cortex" # "Colon - Sigmoid" or "Brain - Cortex"
 
 file_a <- "data/raw/gene_reads_adult_gtex_v11_whole_blood.gct"
-file_b <- "data/raw/gene_reads_adult_gtex_v11_colon_sigmoid.gct" # "data/raw/gene_reads_adult_gtex_v11_colon_sigmoid.gct"
+file_b <- "data/raw/gene_reads_adult_gtex_v11_brain_cortex.gct" # "data/raw/gene_reads_adult_gtex_v11_colon_sigmoid.gct"
 
 # Save under data folder to avoid uploading to git
 output_file <- "data/processed/deseq_input_blood_vs_sigmoid.rds" # "data/processed/deseq_input_blood_vs_sigmoid.rds"
@@ -142,6 +142,9 @@ Compare overlap with original sample distributions.
 I reviewed the sample attributes and didn't see anything that would be relevant for selection bias control.
 
 ```{r}
+#| fig-width: 7
+#| fig-height: 4.5
+#| dpi: 300
 # Label every donor with its group, then attach that donor's phenotypes.
 # Create list w/ donor IDs and labeled group column x5 -> stack vertically with rbindlist
 donor.groups <- rbindlist(list(
@@ -158,13 +161,14 @@ donor.groups <- subject.dt[donor.groups, on = "SUBJID"] #data.table join using k
 
 # For each covariate -> print counts + normalized table -> stacked bar chart
 library(ggplot2)
-for (i in c("SEX", "AGE", "DTHHRDY")) {
+for (i in c("SEX", "DTHHRDY", "AGE")) {
 
   # Pull out the two columns we care about for this covariate
   work <- data.table(
     covariate = as.character(donor.groups[[i]]),  # the covariate value
     group = donor.groups$group                # which cohort the donor is in
   )
+  if (i == "SEX") work[, covariate := factor(ifelse(covariate == "1", "Male", "Female"), levels = c("Male", "Female"))] # 1 = male, 2 = female
 
   # Count donors in each group-level combination (.N = rows in each bucket)
   counts <- work[, .(n = .N), by = .(group, covariate)]

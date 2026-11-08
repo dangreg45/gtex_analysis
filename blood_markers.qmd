@@ -1,0 +1,138 @@
+# Intro
+
+Step 3b of candidate marker analysis. Before filtering the DESeq2 results, cortisol responsive genes from [Yurtsever 2019](https://www.sciencedirect.com/science/article/abs/pii/S0306453018310126?via%3Dihub) are checked to verify a stress-related response is being observed. The results are then filtered through the candidate marker list. Expression conditions are then applied.
+
+# Settings
+
+```{r}
+deseq_file <- "data/processed/deseq2_output_Current_vs_Never.rds" # from deseq2-analysis.qmd
+input_file <- "data/processed/deseq_input_ptsd.rds" # from ptsd_input.qmd, for Ensembl IDs
+hpa_file <- "data/processed/hpa_secreted_to_blood.rds" # from hpa_secreted.qmd
+
+alpha <- 0.05 # padj cutoff for "Changes with PTSD"
+min_base_mean <- 100 # expressed in blood
+control_genes <- c("FKBP5", "TSC22D3") # cortisol responsive controls, TSC22D3 = GILZ
+
+out_dir <- "results/blood_markers"
+shinygo_dir <- "results/shinygo/input" # read by shinygo_download.py
+```
+
+# Load packages
+
+```{r}
+library(readxl)
+```
+
+# Import data
+
+```{r}
+res <- readRDS(deseq_file)$res # gene_id = NCBI gene ID, symbol, baseMean, log2FoldChange, padj
+genes <- readRDS(input_file)$genes
+hpa <- readRDS(hpa_file)
+
+res$ensembl <- genes$Ensembl[match(res$gene_id, genes$Name)]
+nrow(res) # genes tested
+```
+
+# Positive check
+
+```{r}
+res[res$symbol %in% control_genes, c("symbol", "baseMean", "log2FoldChange", "padj")]
+```
+
+# Secreted to blood
+
+Match HPA by Ensembl ID.
+
+```{r}
+m <- match(res$ensembl, hpa$ensembl)
+res$secreted <- !is.na(m)
+res$measured_in_blood <- hpa$measured_in_blood[m]
+
+sum(res$secreted) # secreted-to-blood genes that passed the DESeq2 prefilter
+setdiff(hpa$gene, res$symbol[res$secreted])[1:20] # not tested: too few reads in blood, or no ID match
+```
+
+## Expressed in blood and changes with PTSD
+
+```{r}
+cand <- res[res$secreted & res$baseMean >= min_base_mean, ]
+cand$label <- ifelse(!is.na(cand$padj) & cand$padj < alpha, "Changes with PTSD", "Candidate only")
+cand <- cand[order(cand$pvalue), ]
+
+nrow(cand) # expressed secreted-to-blood genes = ShinyGO background
+table(cand$label)
+table(cand$label, cand$measured_in_blood)
+```
+
+```{r}
+markers <- cand[cand$label == "Changes with PTSD", ]
+markers[, c("symbol", "baseMean", "log2FoldChange", "padj", "measured_in_blood")]
+```
+
+Volcano of the candidates only. Red = higher in current PTSD, blue = lower.
+
+```{r}
+hit <- cand$label == "Changes with PTSD"
+volcano <- function() {
+  par(mar = c(5, 5, 1, 1))
+  y_max <- max(-log10(cand$padj), na.rm = TRUE) * 1.15 # headroom so the top labels aren't cut off
+  x_max <- max(abs(cand$log2FoldChange), na.rm = TRUE) * 1.1 # symmetric, with room for labels at the edges
+  plot(cand$log2FoldChange, -log10(cand$padj), pch = 19, cex = 0.8, ylim = c(0, y_max), xlim = c(-x_max, x_max),
+       xlab = "Log2 FC current vs never PTSD", ylab = "-log10(BH adjusted p-value)", cex.lab = 1.3, cex.axis = 1.1,
+       col = ifelse(!hit, "grey50", ifelse(cand$log2FoldChange > 0, "red", "blue")))
+  abline(h = -log10(alpha), lty = 2)
+  text(cand$log2FoldChange[hit], -log10(cand$padj[hit]), cand$symbol[hit], pos = 3, cex = 1)
+}
+volcano()
+
+# Same plot at a fixed size for slides
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+png(file.path(out_dir, "marker_volcano.png"), width = 8, height = 5.5, units = "in", res = 300)
+volcano()
+dev.off()
+```
+
+# Reference sets
+
+Same sets as `deseq2-gene_lists.qmd`.
+
+```{r}
+mito <- read_excel("data/raw/Human.MitoCarta3.0.xls", sheet = "A Human MitoCarta3.0")$Symbol
+f <- "data/raw/autophagy_Bordi2021_MOESM1.xlsx"
+autophagy <- unlist(lapply(excel_sheets(f), function(sh) read_excel(f, sheet = sh, col_names = FALSE)[[1]])) # first column of every sheet; non-gene rows won't match a symbol
+reactome <- strsplit(readLines("data/raw/ReactomePathways.gmt"), "\t") # one line per pathway: name, ID, then its genes
+names(reactome) <- sapply(reactome, `[`, 1)
+metabolism <- reactome[["Metabolism"]][-(1:2)]
+sets <- list(Mitochondrial = mito, Autophagy = autophagy, Metabolism = metabolism)
+
+cand$sets <- sapply(cand$symbol, function(g) paste(names(sets)[sapply(sets, function(s) g %in% s)], collapse = ", "))
+table(cand$label, cand$sets != "")
+cand[cand$label == "Changes with PTSD" & cand$sets != "", c("symbol", "log2FoldChange", "padj", "sets")]
+```
+
+# Save
+
+Marker table (all expressed candidates, labelled), and ShinyGO lists. Background = all expressed secreted-to-blood genes (per [Wijesooriya 2022](https://doi.org/10.1371/journal.pcbi.1009935)).
+
+```{r}
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+cols <- c("symbol", "gene_id", "ensembl", "label", "baseMean", "log2FoldChange", "pvalue", "padj", "measured_in_blood", "sets")
+write.csv(cand[, cols], file.path(out_dir, "marker_table.csv"), row.names = FALSE)
+
+writeLines(cand$symbol, file.path(out_dir, "shinygo_background.txt"))
+writeLines(markers$symbol, file.path(out_dir, "shinygo_markers.txt"))
+writeLines(markers$symbol[markers$log2FoldChange > 0], file.path(out_dir, "shinygo_markers_up.txt"))
+writeLines(markers$symbol[markers$log2FoldChange < 0], file.path(out_dir, "shinygo_markers_down.txt"))
+```
+
+## ShinyGO input
+
+Same markers and background, named to match shinygo_download.py formatting.
+
+```{r}
+dir.create(shinygo_dir, recursive = TRUE, showWarnings = FALSE)
+tag <- "shinygo_PTSD_Current_vs_Never_secreted"
+writeLines(cand$symbol, file.path(shinygo_dir, paste0(tag, "_bm", min_base_mean, "_background.txt")))
+writeLines(markers$symbol, file.path(shinygo_dir, paste0(tag, "_lfc0_bm", min_base_mean, "_both.txt")))
+```

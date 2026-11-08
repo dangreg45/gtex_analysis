@@ -9,19 +9,19 @@ editor: visual
 
 [Duke HTS 2017 DESeq2 introduction](https://people.duke.edu/~ccc14/duke-hts-2017/Statistics/08032017/DESeq2-Notebook-introduction.html) = base for this analysis. Minors changes were made for the more recent DESeq2 release and adapting to a different dataset.
 
-Input is from the tissue_overlap-analysis.qmd at present.
+Comments were placed in setting to support step 3 of candidate marker approach. Step 3a performs differential expression analysis along PTSD status for later filtering through candidate markers.
 
 # Settings
 
 Program is input-blind outside of these settings.
 
 ```{r}
-input_file <- "data/processed/deseq_input_blood_vs_sigmoid.rds" # "data/processed/deseq_input_blood_vs_sigmoid.rds" or vs_cortex
+input_file <- "data/processed/deseq_input_ptsd.rds" # "data/processed/deseq_input_blood_vs_sigmoid.rds" or vs_cortex, or deseq_input_ptsd.rds (from ptsd_input.qmd)
 
 sample_col <- "SAMPID" # coldata column holding sample IDs (= count matrix column names)
-group_col <- "tissue" # coldata column that defines the comparison
-target_level <- "Colon - Sigmoid" # upregulated "Colon - Sigmoid" or "Brain - Cortex"
-ref_level <- "Whole Blood" # downregulated = reference level
+group_col <- "ptsd" # coldata column that defines the comparison. PTSD: "ptsd"
+target_level <- "Current" # upregulated "Colon - Sigmoid" or "Brain - Cortex". PTSD: "Current"
+ref_level <- "Never" # downregulated = reference level. PTSD: "Never"
 
 # Which donors to use. NULL = everyone, or a name from the subgroups list ("male", "under60", ...)
 subgroup <- NULL

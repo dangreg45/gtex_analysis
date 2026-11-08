@@ -1,0 +1,8 @@
+"Enrichment FDR","nGenes","Pathway Genes","Fold Enrichment","Pathway","URL","Genes"
+0.0445100459364562,3,18,24.8514492753623,"GO:0030992 Intraciliary transport particle b "," https://amigo.geneontology.org/amigo/term/GO:0030992","IFT27 IFT70B IFT70A"
+0.0606326453146069,3,25,17.8930434782609,"GO:0030990 Intraciliary transport particle "," https://amigo.geneontology.org/amigo/term/GO:0030990","IFT27 IFT70B IFT70A"
+0.0629537510679633,10,576,3.05550605844619,"GO:0005759 Mitochondrial matrix "," https://amigo.geneontology.org/amigo/term/GO:0005759","HSD17B8 GCDH IVD PYCR2 DHFR2 ACAD10 OGG1 SUOX BTD HPDL"
+0.0629537510679633,5,157,5.96434782608696,"GO:0005777 Peroxisome "," https://amigo.geneontology.org/amigo/term/GO:0005777","PEX10 PXMP4 EPHX2 PIPOX NUDT7"
+0.0629537510679633,5,157,5.96434782608696,"GO:0042579 Microbody "," https://amigo.geneontology.org/amigo/term/GO:0042579","PEX10 PXMP4 EPHX2 PIPOX NUDT7"
+0.0852004639576567,3,54,10.4029322548028,"GO:0005782 Peroxisomal matrix "," https://amigo.geneontology.org/amigo/term/GO:0005782","NUDT7 EPHX2 PIPOX"
+0.0852004639576567,3,54,10.4029322548028,"GO:0031907 Microbody lumen "," https://amigo.geneontology.org/amigo/term/GO:0031907","NUDT7 EPHX2 PIPOX"

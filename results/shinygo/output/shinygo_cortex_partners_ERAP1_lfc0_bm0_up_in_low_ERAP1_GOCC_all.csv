@@ -1,0 +1,8 @@
+"Enrichment FDR","nGenes","Pathway Genes","Fold Enrichment","Pathway","URL","Genes"
+0.00166488599589981,4,61,31.1065759637188,"GO:0098636 Protein complex involved in cell adhesion "," https://amigo.geneontology.org/amigo/term/GO:0098636","ITGA8 ITGA10 ITGA1 NID1"
+0.00300848376500941,3,32,49.4045618247299,"GO:0008305 Integrin complex "," https://amigo.geneontology.org/amigo/term/GO:0008305","ITGA8 ITGA10 ITGA1"
+0.00369378862726999,8,566,5.92506208832739,"GO:0045177 Apical part of cell "," https://amigo.geneontology.org/amigo/term/GO:0045177","SLC2A1 PLPP1 HYAL2 ITGA8 SLC52A3 JAG1 KCNE4 CSPG4"
+0.00496306215262428,7,454,6.46770391324847,"GO:0016324 Apical plasma membrane "," https://amigo.geneontology.org/amigo/term/GO:0016324","SLC2A1 PLPP1 HYAL2 SLC52A3 JAG1 KCNE4 CSPG4"
+0.0185566638723237,8,1104,4.34888052308302,"GO:0009986 Cell surface "," https://amigo.geneontology.org/amigo/term/GO:0009986","CSPG4 ITGA1 ITGA8 ITGA10 TNFRSF10D HYAL2 SRPX2 LPL"
+0.0958176838303629,8,1023,3.23185204817858,"GO:0070161 Anchoring junction "," https://amigo.geneontology.org/amigo/term/GO:0070161","ITGA8 CSPG4 ITGA1 GJA4 APOLD1 JAG1 SLC2A1 STARD8"
+0.0958176838303629,10,1444,2.70491964901903,"GO:0098590 Plasma membrane region "," https://amigo.geneontology.org/amigo/term/GO:0098590","SLCO4A1 SLC2A1 PLPP1 HYAL2 ITGA8 SLC52A3 JAG1 SRPX2 KCNE4 CSPG4"

@@ -1,0 +1,98 @@
+# Intro
+
+Calculate AUC for differentially expressed candidate markers.
+
+# Settings
+
+```{r}
+input_file <- "data/processed/deseq_input_ptsd.rds" # from ptsd_input.qmd
+markers_file <- "results/blood_markers/marker_table.csv" # from blood_markers.qmd
+
+target_level <- "Current"
+ref_level <- "Never"
+
+# Same rule as deseq2-analysis.qmd
+min_count <- 10 # prefilter -> reads a sample needs for a gene to count as expressed in it
+min_frac <- 0.5 # prefilter -> keep genes expressed in >= this fraction of samples in either group
+
+out_dir <- "results/marker_auc"
+```
+
+# Load packages
+
+```{r}
+library(DESeq2)
+```
+
+# AUC function
+
+AUC from ranks (Mann-Whitney). Ties count half.
+
+```{r}
+auc <- function(score, y) {
+  r <- rank(score)
+  n1 <- sum(y)
+  n0 <- sum(!y)
+  (sum(r[y]) - n1 * (n1 + 1) / 2) / (n1 * n0)
+}
+```
+
+# Import data
+
+```{r}
+inp <- readRDS(input_file)
+step3 <- read.csv(markers_file)
+markers <- step3$symbol[step3$label == "Changes with PTSD"]
+markers
+
+keep_samples <- inp$coldata$ptsd %in% c(target_level, ref_level)
+coldata <- inp$coldata[keep_samples, ]
+counts <- inp$counts[, coldata$SAMPID]
+genes <- inp$genes
+
+y <- coldata$ptsd == target_level # TRUE = current PTSD
+table(y)
+```
+
+# Expression
+
+Variance-stabilised expression, the score each marker's AUC is computed on.
+
+```{r}
+expressed <- rowSums(counts >= min_count) >= min_frac * min(table(y))
+vst_all <- vst(counts[expressed, ], blind = TRUE)
+rownames(vst_all) <- genes$Description[match(rownames(vst_all), genes$Name)]
+dim(vst_all)
+```
+
+# Single-marker AUC
+
+Below 0.5 means lower in current PTSD; `auc_either` flips those so 0.5-1 reads they're consistent.
+
+```{r}
+single <- data.frame(marker = markers, auc = sapply(markers, function(g) auc(vst_all[g, ], y)))
+single$auc_either <- pmax(single$auc, 1 - single$auc)
+```
+
+# Slide table
+
+Step 3 results plus the AUC, sorted by AUC.
+
+```{r}
+st <- step3[match(single$marker, step3$symbol), ]
+slide_tab <- data.frame(Gene = st$symbol,
+  `In PTSD` = ifelse(st$log2FoldChange > 0, "up", "down"),
+  `log2 FC` = sprintf("%.2f", st$log2FoldChange),
+  padj = sprintf("%.3f", st$padj),
+  `In plasma` = ifelse(st$measured_in_blood == "both", "both", "MS"),
+  AUC = sprintf("%.2f", single$auc_either), check.names = FALSE)
+slide_tab <- slide_tab[order(-single$auc_either), ]
+slide_tab
+```
+
+# Save
+
+```{r}
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+write.csv(single, file.path(out_dir, "single_marker_auc.csv"), row.names = FALSE)
+```

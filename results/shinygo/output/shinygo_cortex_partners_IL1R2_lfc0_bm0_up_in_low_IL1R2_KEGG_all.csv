@@ -1,0 +1,5 @@
+"Enrichment FDR","nGenes","Pathway Genes","Fold Enrichment","Pathway","URL","Genes"
+0.00439206400305176,11,370,4.61292492051846,"Path:hsa04080 Neuroactive ligand-receptor interaction","https://www.genome.jp/kegg-bin/show_pathway?hsa04080 ","NMU GRIN3A CRH ADRA2A GLRA2 PRLHR GRIK4 NR3C1 GRM3 PNOC SST"
+0.00954983639550439,8,219,5.40504334121355,"Path:hsa04081 Hormone signaling","https://www.genome.jp/kegg-bin/show_pathway?hsa04081 ","CRH ADRA2A GNAO1 GNG4 PRLHR PNOC PTHLH SST"
+0.0611047133754806,7,199,4.36561192944172,"Path:hsa04082 Neuroactive ligand signaling","https://www.genome.jp/kegg-bin/show_pathway?hsa04082 ","GRIN3A ADRA2A GNAO1 GNG4 GRIK4 GRM3 PNOC"
+0.154706734285618,5,116,4.81637525454673,"Path:hsa04724 Glutamatergic synapse","https://www.genome.jp/kegg-bin/show_pathway?hsa04724 ","GRIN3A GNAO1 GNG4 GRIK4 GRM3"

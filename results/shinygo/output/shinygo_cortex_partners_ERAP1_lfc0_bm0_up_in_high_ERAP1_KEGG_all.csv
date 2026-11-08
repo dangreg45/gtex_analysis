@@ -1,0 +1,6 @@
+"Enrichment FDR","nGenes","Pathway Genes","Fold Enrichment","Pathway","URL","Genes"
+0.111390302019787,1,154,10.8873015873016,"Path:hsa04261 Adrenergic signaling in cardiomyocytes","https://www.genome.jp/kegg-bin/show_pathway?hsa04261 ","SCN5A"
+0.111390302019787,1,174,9.86906474820144,"Path:hsa04310 Wnt signaling pathway","https://www.genome.jp/kegg-bin/show_pathway?hsa04310 ","NKD2"
+0.111390302019787,1,62,27.9959183673469,"Path:hsa04330 Notch signaling pathway","https://www.genome.jp/kegg-bin/show_pathway?hsa04330 ","DTX4"
+0.111390302019787,1,183,8.52049689440994,"Path:hsa04360 Axon guidance","https://www.genome.jp/kegg-bin/show_pathway?hsa04360 ","EPHB3"
+0.111390302019787,1,157,10.6341085271318,"Path:hsa04390 Hippo signaling pathway","https://www.genome.jp/kegg-bin/show_pathway?hsa04390 ","NKD2"
